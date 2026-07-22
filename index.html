@@ -7,676 +7,365 @@
 <meta name="description" content="Portafolio de José Manuel Velazco Ochoa, Ingeniero Topógrafo Geomático. GIS, cartografía temática, geodesia, teledetección y análisis espacial.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#101B24;
-    --ink-2:#16232E;
-    --panel:#1B2C39;
-    --paper:#ECE6D6;
-    --paper-dim:#B9C2C9;
-    --accent:#E8590C;
-    --accent-soft:#F2874D;
-    --teal:#6FA88F;
-    --muted:#7E8FA0;
-    --line:rgba(236,230,214,0.14);
-    --line-strong:rgba(236,230,214,0.28);
-    --radius:2px;
+    --bg:#FFFFFF;
+    --bg-alt:#F3F6FB;
+    --surface:#FFFFFF;
+    --text:#0F1B2D;
+    --text-dim:#5A6B85;
+    --border:#E2E8F1;
+    --accent:#1E40C4;
+    --accent-2:#3B63E0;
+    --accent-soft:#E7ECFB;
+    --shadow:0 20px 40px -20px rgba(15,27,45,0.25);
     --display:'Space Grotesk',sans-serif;
     --body:'Inter',sans-serif;
     --mono:'IBM Plex Mono',monospace;
   }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0A1220;
+      --bg-alt:#0F1A2C;
+      --surface:#101C30;
+      --text:#F2F5FA;
+      --text-dim:#93A2BC;
+      --border:#233047;
+      --accent:#5B8DEF;
+      --accent-2:#7FA4F5;
+      --accent-soft:rgba(91,141,239,0.16);
+      --shadow:0 20px 40px -20px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#FFFFFF;--bg-alt:#F3F6FB;--surface:#FFFFFF;--text:#0F1B2D;--text-dim:#5A6B85;
+    --border:#E2E8F1;--accent:#1E40C4;--accent-2:#3B63E0;--accent-soft:#E7ECFB;
+    --shadow:0 20px 40px -20px rgba(15,27,45,0.25);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0A1220;--bg-alt:#0F1A2C;--surface:#101C30;--text:#F2F5FA;--text-dim:#93A2BC;
+    --border:#233047;--accent:#5B8DEF;--accent-2:#7FA4F5;--accent-soft:rgba(91,141,239,0.16);
+    --shadow:0 20px 40px -20px rgba(0,0,0,0.6);
+  }
 
   *{margin:0;padding:0;box-sizing:border-box;}
-
-  html{scroll-behavior:smooth;}
-
   body{
-    background:var(--ink);
-    color:var(--paper);
-    font-family:var(--body);
-    line-height:1.6;
-    font-size:16px;
+    background:var(--bg);color:var(--text);font-family:var(--body);
+    line-height:1.6;font-size:16px;transition:background .4s ease,color .4s ease;
     overflow-x:hidden;
   }
+  a{color:inherit;}
+  ::selection{background:var(--accent);color:#fff;}
+  :focus-visible{outline:2px solid var(--accent-2);outline-offset:3px;}
+  button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit;}
+  h1,h2,h3{font-family:var(--display);}
 
-  a{color:inherit;text-decoration:none;}
-
-  ::selection{background:var(--accent);color:var(--ink);}
-
-  :focus-visible{outline:2px solid var(--accent-soft);outline-offset:3px;}
-
-  .wrap{
-    max-width:1140px;
+  /* ================= TILT PHOTO ================= */
+  .cube-scene{
+    width:var(--s);height:var(--s);
+    perspective:calc(var(--s) * 4);
     margin:0 auto;
-    padding:0 32px;
+  }
+  .cube{
+    width:100%;height:100%;position:relative;
+    transform-style:preserve-3d;
+    transform:rotateX(0deg) rotateY(0deg);
+    transition:transform .5s cubic-bezier(.2,.8,.2,1);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+  }
+  .cube .face{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;border-radius:14px;
+    background:var(--accent-soft);
+  }
+  .face-front img{width:100%;height:100%;object-fit:cover;}
+  .face-front .fallback{
+    display:none;width:60%;height:60%;align-items:center;justify-content:center;
+  }
+  .face-front .fallback svg{width:100%;height:100%;stroke:var(--accent);fill:none;stroke-width:1.4;}
+
+  /* ================= SPLASH ================= */
+  .splash{
+    position:fixed;inset:0;z-index:200;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;
+    background:var(--bg);cursor:pointer;
+    transition:opacity .6s ease, visibility .6s ease;
+  }
+  .splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+  .splash-text{
+    font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,4vw,2.4rem);
+    letter-spacing:-0.01em;
+  }
+  .splash-hint{
+    font-family:var(--mono);font-size:11px;color:var(--text-dim);
+    letter-spacing:.1em;text-transform:uppercase;
+    opacity:.8;
   }
 
-  /* ---------- corner registration marks ---------- */
-  .reg-mark{
-    position:fixed;
-    width:22px;height:22px;
-    z-index:40;
-    pointer-events:none;
-    opacity:.5;
-  }
-  .reg-mark::before,.reg-mark::after{content:'';position:absolute;background:var(--paper-dim);}
-  .reg-mark::before{width:100%;height:1px;top:50%;}
-  .reg-mark::after{height:100%;width:1px;left:50%;}
-  .reg-tl{top:16px;left:16px;}
-  .reg-tr{top:16px;right:16px;}
-  .reg-bl{bottom:16px;left:16px;}
-  .reg-br{bottom:16px;right:16px;}
-  @media (max-width:720px){.reg-mark{display:none;}}
-
-  /* ---------- nav ---------- */
-  header{
-    position:fixed;
-    top:0;left:0;right:0;
-    z-index:50;
-    background:rgba(16,27,36,0.86);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line);
-  }
-  nav.wrap{
-    display:flex;
-    align-items:center;
+  /* ================= APP LAYOUT ================= */
+  .app{display:flex;min-height:100vh;}
+  .sidebar{
+    width:280px;flex-shrink:0;
+    background:var(--bg-alt);
+    border-right:1px solid var(--border);
+    display:flex;flex-direction:column;
     justify-content:space-between;
-    height:64px;
+    padding:40px 26px;
+    position:sticky;top:0;height:100vh;
   }
-  .logo{
-    font-family:var(--mono);
-    font-size:14px;
-    letter-spacing:0.06em;
-    color:var(--paper);
-    display:flex;
-    align-items:center;
-    gap:8px;
+  .side-top{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;}
+  .side-name{font-family:var(--display);font-weight:600;font-size:17px;line-height:1.25;}
+  .side-role{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.04em;}
+
+  .side-nav{display:flex;flex-direction:column;gap:8px;margin-top:36px;}
+  .nav-btn{
+    text-align:left;padding:13px 16px;border-radius:10px;
+    font-size:14px;font-weight:500;color:var(--text-dim);
+    border:1px solid transparent;
+    transition:transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
   }
-  .logo .dot{width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block;}
-  .nav-links{
-    display:flex;
-    gap:28px;
-    list-style:none;
-    font-family:var(--mono);
-    font-size:12px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--paper-dim);
+  .nav-btn:hover{
+    transform:translateX(4px) scale(1.03);
+    background:var(--surface);
+    color:var(--text);
+    border-color:var(--border);
   }
-  .nav-links a{transition:color .2s;position:relative;}
-  .nav-links a:hover{color:var(--accent-soft);}
-  .nav-toggle{display:none;background:none;border:1px solid var(--line-strong);color:var(--paper);width:38px;height:38px;font-family:var(--mono);}
-  @media (max-width:760px){
-    .nav-links{display:none;}
-    .nav-toggle{display:block;}
+  .nav-btn.active{
+    background:var(--accent-soft);
+    color:var(--accent);
+    border-color:var(--accent-soft);
+    font-weight:600;
   }
 
-  /* ---------- hero ---------- */
-  .hero{
-    position:relative;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding-top:64px;
-    overflow:hidden;
+  .side-bottom{display:flex;flex-direction:column;gap:18px;align-items:center;}
+  .theme-btn{
+    display:flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--text-dim);
+    padding:9px 14px;border:1px solid var(--border);border-radius:20px;
+    transition:transform .25s ease, color .25s ease, border-color .25s ease;
   }
-  .contours{
-    position:absolute;
-    inset:0;
-    z-index:0;
-    opacity:0.55;
-  }
-  .contours path{
-    fill:none;
-    stroke:var(--line);
-    stroke-width:1;
-  }
-  .contours path.acc{stroke:rgba(232,89,12,0.22);}
-  @keyframes drift{
-    0%{transform:translate(0,0);}
-    50%{transform:translate(-14px,10px);}
-    100%{transform:translate(0,0);}
-  }
-  @media (prefers-reduced-motion:no-preference){
-    .contours{animation:drift 34s ease-in-out infinite;}
-  }
-  .hero-inner{position:relative;z-index:1;}
+  .theme-btn:hover{transform:scale(1.05);color:var(--text);border-color:var(--accent-2);}
+  .theme-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.6;}
+  .side-contact{display:flex;gap:14px;font-family:var(--mono);font-size:11px;}
+  .side-contact a{color:var(--text-dim);transition:color .2s;}
+  .side-contact a:hover{color:var(--accent);}
+
+  /* ================= CONTENT ================= */
+  .content{flex:1;padding:64px 64px 100px;max-width:920px;}
+  .panel{display:none;}
+  .panel.active{display:block;animation:fadeIn .5s ease forwards;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
   .eyebrow{
-    font-family:var(--mono);
-    font-size:12.5px;
-    letter-spacing:0.12em;
-    color:var(--teal);
-    text-transform:uppercase;
-    margin-bottom:22px;
-    display:flex;
-    align-items:center;
-    gap:10px;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:10px;
   }
-  .eyebrow::before{content:'';width:26px;height:1px;background:var(--teal);}
-  h1.name{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:clamp(2.4rem,6vw,4.6rem);
-    line-height:1.02;
-    letter-spacing:-0.01em;
-    max-width:900px;
-  }
-  .role{
-    font-family:var(--display);
-    font-weight:500;
-    font-size:clamp(1.1rem,2.2vw,1.5rem);
-    color:var(--accent-soft);
-    margin-top:14px;
-  }
-  .bio{
-    max-width:560px;
-    color:var(--paper-dim);
-    margin-top:24px;
-    font-size:15.5px;
-  }
-  .hero-cta{
-    display:flex;
-    gap:16px;
-    margin-top:36px;
-    flex-wrap:wrap;
-  }
-  .btn{
-    font-family:var(--mono);
-    font-size:12.5px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    padding:13px 22px;
-    border:1px solid var(--line-strong);
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    transition:all .2s;
-  }
-  .btn-primary{background:var(--accent);border-color:var(--accent);color:var(--ink);font-weight:500;}
-  .btn-primary:hover{background:var(--accent-soft);border-color:var(--accent-soft);}
-  .btn-ghost:hover{border-color:var(--paper-dim);background:rgba(255,255,255,0.04);}
+  .eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);}
+  .panel h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;letter-spacing:-0.01em;margin-bottom:22px;}
+  .panel > p.lead{color:var(--text-dim);font-size:16px;max-width:62ch;margin-bottom:32px;}
 
-  .scroll-cue{
-    position:absolute;
-    bottom:36px;left:32px;
-    font-family:var(--mono);
-    font-size:11px;
-    color:var(--muted);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    z-index:1;
-  }
-  .scroll-cue .bar{width:1px;height:34px;background:linear-gradient(var(--muted),transparent);}
-  @media (max-width:600px){.scroll-cue{display:none;}}
-
-  /* ---------- section shell ---------- */
-  section{
-    padding:120px 0;
-    border-top:1px solid var(--line);
-    position:relative;
-  }
-  .sec-head{
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    margin-bottom:56px;
-    gap:20px;
-    flex-wrap:wrap;
-  }
-  .sec-num{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--accent-soft);
-    letter-spacing:.1em;
-  }
-  h2{
-    font-family:var(--display);
-    font-weight:600;
-    font-size:clamp(1.6rem,3.4vw,2.4rem);
-    letter-spacing:-0.01em;
-  }
-  .sec-sub{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--muted);
-    text-align:right;
-    max-width:260px;
-  }
-
-  /* ---------- perfil ---------- */
-  .perfil-grid{
-    display:grid;
-    grid-template-columns:1.3fr 1fr;
-    gap:64px;
-  }
-  @media (max-width:800px){.perfil-grid{grid-template-columns:1fr;}}
-  .perfil-text p{color:var(--paper-dim);font-size:16px;max-width:56ch;}
-  .badges{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-top:32px;
-  }
+  .badges{display:flex;flex-wrap:wrap;gap:9px;margin:26px 0;}
   .badge{
-    font-family:var(--mono);
-    font-size:11.5px;
-    padding:7px 12px;
-    border:1px solid var(--line-strong);
-    color:var(--paper-dim);
-    letter-spacing:.02em;
+    font-family:var(--mono);font-size:11.5px;padding:7px 12px;border-radius:20px;
+    border:1px solid var(--border);color:var(--text-dim);background:var(--surface);
   }
-  .info-card{
-    border:1px solid var(--line);
-    padding:26px;
-    background:var(--panel);
-  }
-  .info-card dl{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;font-size:13.5px;}
-  .info-card dt{font-family:var(--mono);color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.06em;padding-top:2px;}
-  .info-card dd{color:var(--paper);}
 
-  /* ---------- experiencia: elevation timeline ---------- */
-  .timeline{
-    position:relative;
-    padding-left:36px;
+  .quick-card{
+    border:1px solid var(--border);border-radius:14px;padding:24px;background:var(--surface);
+    box-shadow:var(--shadow);margin-top:24px;
   }
-  .timeline::before{
-    content:'';
-    position:absolute;
-    left:5px;top:6px;bottom:6px;
-    width:1px;
-    background:repeating-linear-gradient(var(--line-strong) 0 6px, transparent 6px 12px);
-  }
-  .station{
-    position:relative;
-    padding-bottom:52px;
-  }
+  .quick-card dl{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;font-size:13.5px;}
+  .quick-card dt{font-family:var(--mono);color:var(--text-dim);text-transform:uppercase;font-size:11px;letter-spacing:.05em;padding-top:2px;}
+
+  .lang-block{margin-top:34px;}
+  .lang-title{font-family:var(--mono);font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;}
+  .lang-row{display:flex;align-items:center;gap:16px;margin-bottom:12px;font-family:var(--mono);font-size:13px;}
+  .lang-name{width:100px;}
+  .signal{display:flex;gap:4px;align-items:flex-end;}
+  .signal span{width:6px;background:var(--border);border-radius:1px;}
+  .signal span:nth-child(1){height:10px;}
+  .signal span:nth-child(2){height:14px;}
+  .signal span:nth-child(3){height:18px;}
+  .signal span:nth-child(4){height:22px;}
+  .signal span.on{background:var(--accent);}
+  .lang-level{color:var(--text-dim);font-size:11.5px;}
+
+  /* educacion */
+  .edu-card{border:1px solid var(--border);border-radius:14px;padding:30px;background:var(--surface);box-shadow:var(--shadow);}
+  .edu-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;}
+  .edu-degree{font-family:var(--display);font-weight:700;font-size:19px;}
+  .edu-school{color:var(--accent);font-family:var(--mono);font-size:12.5px;margin-top:4px;}
+  .edu-years{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);}
+  .edu-card p{color:var(--text-dim);font-size:14.5px;max-width:68ch;}
+  .cedula{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:14px;}
+
+  /* experiencia */
+  .timeline{position:relative;padding-left:30px;margin-top:8px;}
+  .timeline::before{content:'';position:absolute;left:4px;top:6px;bottom:6px;width:1px;background:var(--border);}
+  .station{position:relative;padding-bottom:44px;}
   .station:last-child{padding-bottom:0;}
-  .station::before{
-    content:'';
-    position:absolute;
-    left:-36px;top:4px;
-    width:11px;height:11px;
-    border-radius:50%;
-    background:var(--ink);
-    border:2px solid var(--accent);
-  }
-  .station-head{
-    display:flex;
-    align-items:baseline;
-    gap:14px;
-    flex-wrap:wrap;
-    margin-bottom:6px;
-  }
-  .station-code{font-family:var(--mono);font-size:11px;color:var(--accent-soft);letter-spacing:.08em;}
-  .station-role{font-family:var(--display);font-weight:600;font-size:19px;}
-  .station-org{color:var(--teal);font-size:13.5px;font-family:var(--mono);}
-  .station-meta{
-    font-family:var(--mono);
-    font-size:11.5px;
-    color:var(--muted);
-    margin-bottom:12px;
-    display:flex;
-    gap:16px;
-    flex-wrap:wrap;
-  }
-  .station ul{list-style:none;color:var(--paper-dim);font-size:14.5px;max-width:64ch;}
-  .station ul li{position:relative;padding-left:16px;margin-bottom:6px;}
-  .station ul li::before{content:'—';position:absolute;left:0;color:var(--muted);}
+  .station::before{content:'';position:absolute;left:-30px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);}
+  .station-code{font-family:var(--mono);font-size:10.5px;color:var(--accent);letter-spacing:.06em;margin-bottom:4px;}
+  .station-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .station-role{font-family:var(--display);font-weight:600;font-size:17px;}
+  .station-org{font-family:var(--mono);font-size:12.5px;color:var(--text-dim);}
+  .station ul{list-style:none;color:var(--text-dim);font-size:14px;max-width:64ch;margin-top:8px;}
+  .station ul li{position:relative;padding-left:16px;margin-bottom:5px;}
+  .station ul li::before{content:'—';position:absolute;left:0;color:var(--border);}
 
-  /* ---------- habilidades ---------- */
-  .skills-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:1px;
-    background:var(--line);
-    border:1px solid var(--line);
-  }
-  @media (max-width:860px){.skills-grid{grid-template-columns:repeat(2,1fr);}}
-  @media (max-width:560px){.skills-grid{grid-template-columns:1fr;}}
-  .skill-card{
-    background:var(--ink);
-    padding:28px 24px;
-  }
-  .skill-card h3{
-    font-family:var(--display);
-    font-size:15px;
-    font-weight:600;
-    margin-bottom:12px;
-    color:var(--accent-soft);
-  }
-  .skill-card p{color:var(--paper-dim);font-size:13.5px;}
+  /* certificados */
+  .cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 30px;}
+  @media (max-width:640px){.cert-grid{grid-template-columns:1fr;}}
+  .cert-row{display:flex;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);font-size:13.5px;}
+  .cert-meta{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);white-space:nowrap;text-align:right;}
+  .award-box{margin-top:36px;border-left:3px solid var(--accent);padding:18px 24px;background:var(--surface);border-radius:0 12px 12px 0;}
+  .award-box .tag{font-family:var(--mono);font-size:10.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:8px;}
+  .award-box p{color:var(--text-dim);font-size:13.5px;}
 
-  .lang-block{margin-top:56px;}
-  .lang-title{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:18px;}
-  .lang-row{display:flex;align-items:center;gap:18px;margin-bottom:14px;font-family:var(--mono);font-size:13px;}
-  .lang-name{width:110px;color:var(--paper);}
-  .signal{display:flex;gap:4px;}
-  .signal span{width:6px;height:14px;background:var(--line-strong);}
-  .signal span.on{background:var(--teal);}
-  .signal span:nth-child(2){height:18px;}
-  .signal span:nth-child(3){height:22px;}
-  .signal span:nth-child(4){height:26px;}
-  .lang-level{color:var(--muted);font-size:11.5px;}
+  /* portafolio */
+  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:640px){.proj-grid{grid-template-columns:1fr;}}
+  .proj-card{
+    border:1px solid var(--border);border-radius:14px;padding:24px;background:var(--surface);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .proj-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+  .proj-tag{font-family:var(--mono);font-size:10.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:block;}
+  .proj-card h3{font-size:16px;font-weight:600;margin-bottom:8px;}
+  .proj-card p{font-size:13.5px;color:var(--text-dim);}
+  .proj-metrics{display:flex;gap:14px;margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--text-dim);}
 
-  /* ---------- educacion ---------- */
-  .edu-card{
-    border:1px solid var(--line);
-    padding:32px;
-    background:var(--panel);
-  }
-  .edu-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;}
-  .edu-degree{font-family:var(--display);font-weight:600;font-size:20px;}
-  .edu-school{color:var(--teal);font-family:var(--mono);font-size:13px;margin-top:4px;}
-  .edu-years{font-family:var(--mono);font-size:12px;color:var(--muted);}
-  .edu-card p{color:var(--paper-dim);font-size:14.5px;max-width:70ch;}
-  .cedula{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:14px;}
-
-  /* ---------- certificados / premios ---------- */
-  .cert-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:0;
-  }
-  @media (max-width:700px){.cert-grid{grid-template-columns:1fr;}}
-  .cert-row{
-    display:flex;
-    justify-content:space-between;
-    gap:16px;
-    padding:16px 0;
-    border-bottom:1px solid var(--line);
-  }
-  .cert-name{font-size:14px;color:var(--paper);max-width:30ch;}
-  .cert-meta{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right;white-space:nowrap;}
-
-  .award-box{
-    margin-top:48px;
-    border-left:2px solid var(--accent);
-    padding:20px 28px;
-    background:var(--panel);
-  }
-  .award-box .tag{font-family:var(--mono);font-size:11px;color:var(--accent-soft);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;display:block;}
-  .award-box p{color:var(--paper-dim);font-size:14px;max-width:70ch;}
-
-  /* ---------- contacto ---------- */
-  .contact-sec{
-    border-top:1px solid var(--line);
-    padding:120px 0 70px;
-  }
-  .contact-grid{
-    display:grid;
-    grid-template-columns:1.2fr 1fr;
-    gap:60px;
-    align-items:end;
-  }
-  @media (max-width:800px){.contact-grid{grid-template-columns:1fr;gap:40px;}}
-  .contact-title{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:clamp(1.8rem,4.4vw,3rem);
-    line-height:1.1;
-    letter-spacing:-0.01em;
-  }
-  .contact-title span{color:var(--accent-soft);}
-  .contact-list{list-style:none;font-family:var(--mono);font-size:14px;}
-  .contact-list li{padding:12px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;}
-  .contact-list li a:hover{color:var(--accent-soft);}
-  .contact-list .k{color:var(--muted);text-transform:uppercase;font-size:11px;letter-spacing:.06em;}
   footer{
-    font-family:var(--mono);
-    font-size:11px;
-    color:var(--muted);
-    text-align:center;
-    padding:28px 0 40px;
+    font-family:var(--mono);font-size:10.5px;color:var(--text-dim);
+    padding:40px 64px;border-top:1px solid var(--border);
   }
 
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
-  .reveal.in{opacity:1;transform:none;}
+  /* mobile layout */
+  @media (max-width:860px){
+    .app{flex-direction:column;}
+    .sidebar{
+      width:100%;height:auto;position:sticky;top:0;z-index:20;
+      flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;
+      padding:18px 20px;
+    }
+    .side-top{flex-direction:row;text-align:left;gap:12px;}
+    .side-nav{
+      flex-direction:row;flex-wrap:wrap;margin-top:0;gap:6px;
+      order:3;width:100%;margin-top:14px;
+    }
+    .nav-btn{padding:9px 12px;font-size:12.5px;}
+    .side-bottom{flex-direction:row;order:2;}
+    .content{padding:44px 24px 80px;}
+    footer{padding:30px 24px;}
+  }
 </style>
 </head>
 <body>
 
-<div class="reg-mark reg-tl"></div>
-<div class="reg-mark reg-tr"></div>
-<div class="reg-mark reg-bl"></div>
-<div class="reg-mark reg-br"></div>
-
-<header>
-  <nav class="wrap">
-    <a class="logo" href="#top"><span class="dot"></span>JMVO / GEOMÁTICA</a>
-    <ul class="nav-links">
-      <li><a href="#perfil">Perfil</a></li>
-      <li><a href="#experiencia">Experiencia</a></li>
-      <li><a href="#habilidades">Habilidades</a></li>
-      <li><a href="#educacion">Educación</a></li>
-      <li><a href="#certificados">Certificados</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-  </nav>
-</header>
-
-<main id="top">
-
-  <!-- HERO -->
-  <section class="hero" style="border-top:none;padding:0;">
-    <svg class="contours" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-      <path d="M -50 620 C 150 560, 300 680, 500 600 C 700 520, 850 640, 1000 580 C 1150 530, 1250 600, 1300 560" />
-      <path d="M -50 660 C 180 600, 320 700, 520 640 C 720 580, 860 680, 1020 620 C 1160 570, 1260 630, 1300 600" />
-      <path d="M -50 580 C 200 500, 340 620, 540 540 C 720 470, 880 580, 1040 500 C 1160 450, 1250 520, 1300 480" class="acc"/>
-      <path d="M -50 500 C 160 420, 340 540, 540 460 C 740 380, 880 500, 1060 420 C 1180 370, 1250 440, 1300 400" />
-      <path d="M -50 720 C 200 680, 380 760, 560 700 C 760 640, 900 740, 1080 680 C 1180 650, 1250 700, 1300 680" />
-      <circle cx="220" cy="180" r="2.5" fill="rgba(232,89,12,0.5)"/>
-      <circle cx="980" cy="140" r="2.5" fill="rgba(111,168,143,0.5)"/>
-    </svg>
-    <div class="wrap hero-inner">
-      <div class="eyebrow">19.2452° N, 103.7241° W — Colima, México</div>
-      <h1 class="name">José Manuel<br>Velazco Ochoa</h1>
-      <div class="role">Ingeniero Topógrafo Geomático</div>
-      <p class="bio">Formación en análisis geoespacial, Sistemas de Información Geográfica y procesamiento de datos territoriales. Genero cartografía temática, ejecuto análisis espacial y aplico herramientas GIS para apoyar decisiones territoriales y ambientales.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#experiencia">Ver experiencia</a>
-        <a class="btn btn-ghost" href="#contacto">Contacto</a>
-      </div>
-    </div>
-    <div class="scroll-cue"><div class="bar"></div>DESPLAZAR</div>
-  </section>
-
-  <!-- PERFIL -->
-  <section id="perfil">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="sec-num">01 — PERFIL</div>
-          <h2>Sobre mí</h2>
-        </div>
-        <div class="sec-sub">Levantamiento, análisis y cartografía del territorio</div>
-      </div>
-      <div class="perfil-grid reveal">
-        <div class="perfil-text">
-          <p>Ingeniero Topógrafo Geomático en etapa inicial, con formación en análisis geoespacial, Sistemas de Información Geográfica (SIG) y procesamiento de datos territoriales. Cuento con experiencia académica y práctica en generación de cartografía temática, análisis espacial y uso de herramientas GIS para interpretar información geográfica y apoyar procesos de análisis territorial y ambiental.</p>
-          <div class="badges">
-            <span class="badge">GIS</span>
-            <span class="badge">Teledetección</span>
-            <span class="badge">Cartografía temática</span>
-            <span class="badge">ArcGIS Pro</span>
-            <span class="badge">AutoCAD Civil 3D</span>
-            <span class="badge">GNSS</span>
-            <span class="badge">Análisis espacial</span>
-            <span class="badge">Geodesia</span>
-            <span class="badge">Topografía</span>
-            <span class="badge">Fotogrametría</span>
-            <span class="badge">Monitoreo ambiental</span>
-            <span class="badge">Python</span>
-          </div>
-        </div>
-        <div class="info-card">
-          <dl>
-            <dt>Ubicación</dt><dd>Colima, México</dd>
-            <dt>Cédula</dt><dd>15282631</dd>
-            <dt>Título</dt><dd>Ing. Topógrafo Geomático — Universidad de Colima</dd>
-            <dt>Idiomas</dt><dd>Español (nativo), Inglés A2, Portugués A2</dd>
-            <dt>Email</dt><dd>velazcoochoajosémanuel@gmail.com</dd>
-          </dl>
+<!-- ===== SPLASH ===== -->
+<div class="splash" id="splash">
+  <div class="cube-scene" id="splashScene" style="--s:170px">
+    <div class="cube" id="splashCube">
+      <div class="face face-front">
+        <img src="assets/profile.jpg" alt="Foto de perfil" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="fallback">
+          <svg viewBox="0 0 100 100"><circle cx="50" cy="35" r="16"/><path d="M20 88 C20 62 34 52 50 52 C66 52 80 62 80 88"/></svg>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="splash-text">Bienvenido</div>
+  <div class="splash-hint">Toca para continuar</div>
+</div>
 
-  <!-- EXPERIENCIA -->
-  <section id="experiencia">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="sec-num">02 — EXPERIENCIA</div>
-          <h2>Estaciones de trabajo</h2>
+<!-- ===== APP ===== -->
+<div class="app">
+  <aside class="sidebar">
+    <div class="side-top">
+      <div class="cube-scene" id="sideScene" style="--s:64px">
+        <div class="cube" id="sideCube">
+          <div class="face face-front">
+            <img src="assets/profile.jpg" alt="Foto de perfil" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="fallback">
+              <svg viewBox="0 0 100 100"><circle cx="50" cy="35" r="16"/><path d="M20 88 C20 62 34 52 50 52 C66 52 80 62 80 88"/></svg>
+            </div>
+          </div>
         </div>
-        <div class="sec-sub">Orden cronológico, como un perfil de elevación de carrera</div>
       </div>
-
-      <div class="timeline reveal">
-
-        <div class="station">
-          <div class="station-code">EST-01 · ENE 2021 – JUL 2021 · 7 MESES</div>
-          <div class="station-head">
-            <div class="station-role">Auxiliar de topógrafo</div>
-            <div class="station-org">Meridiano Topografía</div>
-          </div>
-          <div class="station-meta"><span>Colima, México</span></div>
-          <ul>
-            <li>Ejecuté levantamientos planimétricos y altimétricos.</li>
-            <li>Operé equipos topográficos para captura y análisis de información georreferenciada.</li>
-          </ul>
-        </div>
-
-        <div class="station">
-          <div class="station-code">EST-02 · DIC 2021 – NOV 2024 · 3 AÑOS</div>
-          <div class="station-head">
-            <div class="station-role">Becario de Investigación</div>
-            <div class="station-org">Sistema Nacional de Investigadores (CONAHCYT)</div>
-          </div>
-          <div class="station-meta"><span>Colima, México</span><span>Proyecto No. 321542</span></div>
-          <ul>
-            <li>Propuse y validé una metodología estatal para la ubicación óptima de estaciones de monitoreo de calidad del aire.</li>
-            <li>Realicé levantamiento de datos geográficos en campo.</li>
-            <li>Desarrollé cartografía temática y bases de datos geoespaciales.</li>
-            <li>Colaboré en análisis geoambientales e informes técnicos que contribuyeron al perfil epidemio-toxicológico del estado de Colima.</li>
-          </ul>
-        </div>
-
-        <div class="station">
-          <div class="station-code">EST-03 · ENE 2023 – SEPT 2023 · 9 MESES</div>
-          <div class="station-head">
-            <div class="station-role">Supervisor de Obras</div>
-            <div class="station-org">CRETEC S.A. de C.V.</div>
-          </div>
-          <div class="station-meta"><span>Colima, México</span><span>Hasta 44.5 ha</span><span>Equipo de 15 personas</span></div>
-          <ul>
-            <li>Supervisé movimientos de tierra y cálculo de volúmenes en proyectos de hasta 44.5 hectáreas.</li>
-            <li>Generé planos técnicos y modelos de superficie para documentación y control de obra.</li>
-            <li>Coordiné equipos de hasta 15 personas en campo en el Aeropuerto Internacional de Colima.</li>
-          </ul>
-        </div>
-
-        <div class="station">
-          <div class="station-code">EST-04 · OCT 2025 – NOV 2025 · 1 MES</div>
-          <div class="station-head">
-            <div class="station-role">Cadista / Dibujante CAD</div>
-            <div class="station-org">Secretaría de la Defensa Nacional (SEDENA)</div>
-          </div>
-          <div class="station-meta"><span>Guadalajara, México</span></div>
-          <ul>
-            <li>Generé planos técnicos y modelos de superficie para proyectos de infraestructura.</li>
-            <li>Realicé cálculos volumétricos y análisis de nivelación, apoyando la interpretación geométrica del terreno.</li>
-          </ul>
-        </div>
-
+      <div>
+        <div class="side-name">José Manuel<br>Velazco Ochoa</div>
+        <div class="side-role">Ing. Topógrafo Geomático</div>
       </div>
     </div>
-  </section>
 
-  <!-- HABILIDADES -->
-  <section id="habilidades">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="sec-num">03 — HABILIDADES</div>
-          <h2>Capas técnicas</h2>
-        </div>
-        <div class="sec-sub">Software, análisis, geodesia y diseño CAD</div>
+    <nav class="side-nav">
+      <button class="nav-btn active" data-target="acerca">Acerca de mí</button>
+      <button class="nav-btn" data-target="educacion">Educación</button>
+      <button class="nav-btn" data-target="experiencia">Experiencia</button>
+      <button class="nav-btn" data-target="certificados">Certificados</button>
+      <button class="nav-btn" data-target="portafolio">Portafolio</button>
+    </nav>
+
+    <div class="side-bottom">
+      <button class="theme-btn" id="themeBtn">
+        <svg id="themeIcon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <span id="themeLabel">Auto</span>
+      </button>
+      <div class="side-contact">
+        <a href="mailto:velazcoochoajosémanuel@gmail.com">Email</a>
+        <a href="tel:+528143597851">Tel</a>
+        <a href="https://www.linkedin.com/in/josemanuelvelazcoochoa/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <section id="acerca" class="panel active">
+      <div class="eyebrow">Perfil</div>
+      <h2>Acerca de mí</h2>
+      <p class="lead">Ingeniero Topógrafo Geomático en etapa inicial, con formación en análisis geoespacial, Sistemas de Información Geográfica (SIG) y procesamiento de datos territoriales. Genero cartografía temática, ejecuto análisis espacial y aplico herramientas GIS para interpretar información geográfica y apoyar procesos de análisis territorial y ambiental.</p>
+
+      <div class="badges">
+        <span class="badge">GIS</span>
+        <span class="badge">Teledetección</span>
+        <span class="badge">Cartografía temática</span>
+        <span class="badge">ArcGIS Pro</span>
+        <span class="badge">AutoCAD Civil 3D</span>
+        <span class="badge">GNSS</span>
+        <span class="badge">Análisis espacial</span>
+        <span class="badge">Geodesia</span>
+        <span class="badge">Topografía</span>
+        <span class="badge">Fotogrametría</span>
+        <span class="badge">Monitoreo ambiental</span>
+        <span class="badge">Python</span>
       </div>
 
-      <div class="skills-grid reveal">
-        <div class="skill-card">
-          <h3>Software GIS</h3>
-          <p>Dominio de ArcGIS Pro y ArcMap; manejo funcional de QGIS y Global Mapper. Python aplicado a automatización de procesos GIS y análisis geoespacial.</p>
-        </div>
-        <div class="skill-card">
-          <h3>Análisis espacial</h3>
-          <p>Análisis multicriterio, detección de cambios de uso de suelo y análisis de islas de calor (heat maps).</p>
-        </div>
-        <div class="skill-card">
-          <h3>Gestión de datos</h3>
-          <p>Estructuración de geodatabases, archivos Shapefile y nociones de bases de datos SQL.</p>
-        </div>
-        <div class="skill-card">
-          <h3>Cartografía</h3>
-          <p>Diseño de mapas temáticos digitales bajo estándares de precisión: proyecciones, datums y elementos de salida gráfica.</p>
-        </div>
-        <div class="skill-card">
-          <h3>Operación de equipo</h3>
-          <p>Manejo de GPS, Estación Total y Nivel Fijo. Métodos de levantamiento y precisión posicional.</p>
-        </div>
-        <div class="skill-card">
-          <h3>Geodesia y GNSS</h3>
-          <p>Ajuste de redes geodésicas y postproceso en Leica Infinity. Procesamiento de archivos RINEX, efemérides y calibración de antenas (.atx).</p>
-        </div>
-        <div class="skill-card">
-          <h3>Topografía y CAD</h3>
-          <p>Modelado en AutoCAD Civil 3D para cálculo de volúmenes y generación de planos.</p>
-        </div>
-        <div class="skill-card">
-          <h3>Modelado digital</h3>
-          <p>Generación y edición de Modelos Digitales de Elevación (MDE) y extracción de curvas de nivel.</p>
-        </div>
-        <div class="skill-card">
-          <h3>Comunicación técnica</h3>
-          <p>Redacción de informes de metodología y exposición de resultados técnicos ante audiencias diversas.</p>
-        </div>
+      <div class="quick-card">
+        <dl>
+          <dt>Ubicación</dt><dd>Colima, México</dd>
+          <dt>Cédula</dt><dd>15282631</dd>
+          <dt>Título</dt><dd>Ing. Topógrafo Geomático — Universidad de Colima</dd>
+          <dt>Software</dt><dd>ArcGIS Pro, ArcMap, QGIS, Global Mapper, AutoCAD Civil 3D, Leica Infinity, Python</dd>
+        </dl>
       </div>
 
-      <div class="lang-block reveal">
+      <div class="lang-block">
         <div class="lang-title">Señal de idiomas</div>
-        <div class="lang-row">
-          <span class="lang-name">Español</span>
-          <span class="signal"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span>
-          <span class="lang-level">Nativo</span>
-        </div>
-        <div class="lang-row">
-          <span class="lang-name">Inglés</span>
-          <span class="signal"><span class="on"></span><span class="on"></span><span></span><span></span></span>
-          <span class="lang-level">A2 · en formación</span>
-        </div>
-        <div class="lang-row">
-          <span class="lang-name">Portugués</span>
-          <span class="signal"><span class="on"></span><span class="on"></span><span></span><span></span></span>
-          <span class="lang-level">A2 · en formación</span>
-        </div>
+        <div class="lang-row"><span class="lang-name">Español</span><span class="signal"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span><span class="lang-level">Nativo</span></div>
+        <div class="lang-row"><span class="lang-name">Inglés</span><span class="signal"><span class="on"></span><span class="on"></span><span></span><span></span></span><span class="lang-level">A2 · en formación</span></div>
+        <div class="lang-row"><span class="lang-name">Portugués</span><span class="signal"><span class="on"></span><span class="on"></span><span></span><span></span></span><span class="lang-level">A2 · en formación</span></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- EDUCACION -->
-  <section id="educacion">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="sec-num">04 — EDUCACIÓN</div>
-          <h2>Formación</h2>
-        </div>
-      </div>
-      <div class="edu-card reveal">
+    <section id="educacion" class="panel">
+      <div class="eyebrow">Formación</div>
+      <h2>Educación</h2>
+      <div class="edu-card">
         <div class="edu-top">
           <div>
             <div class="edu-degree">Ingeniero Topógrafo Geomático</div>
@@ -687,71 +376,182 @@
         <p>Prácticas profesionales: análisis geoespacial para la identificación de sitios óptimos para estaciones de monitoreo de calidad del aire en el estado de Colima, con aplicación directa en políticas ambientales estatales. Trabajo derivado del Proyecto CONAHCYT No. 321542.</p>
         <div class="cedula">Cédula Profesional No. 15282631</div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CERTIFICADOS -->
-  <section id="certificados">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <div class="sec-num">05 — CERTIFICADOS</div>
-          <h2>Formación continua</h2>
+    <section id="experiencia" class="panel">
+      <div class="eyebrow">Trayectoria</div>
+      <h2>Experiencia</h2>
+      <div class="timeline">
+        <div class="station">
+          <div class="station-code">EST-01 · ENE 2021 – JUL 2021 · 7 MESES</div>
+          <div class="station-head"><div class="station-role">Auxiliar de topógrafo</div><div class="station-org">Meridiano Topografía · Colima</div></div>
+          <ul>
+            <li>Ejecuté levantamientos planimétricos y altimétricos.</li>
+            <li>Operé equipos topográficos para captura y análisis de información georreferenciada.</li>
+          </ul>
         </div>
-        <div class="sec-sub">Cursos y certificaciones recientes</div>
+        <div class="station">
+          <div class="station-code">EST-02 · DIC 2021 – NOV 2024 · 3 AÑOS</div>
+          <div class="station-head"><div class="station-role">Becario de Investigación</div><div class="station-org">CONAHCYT · Colima</div></div>
+          <ul>
+            <li>Propuse y validé una metodología estatal para la ubicación óptima de estaciones de monitoreo de calidad del aire.</li>
+            <li>Desarrollé cartografía temática y bases de datos geoespaciales.</li>
+            <li>Colaboré en informes técnicos que contribuyeron al perfil epidemio-toxicológico del estado de Colima.</li>
+          </ul>
+        </div>
+        <div class="station">
+          <div class="station-code">EST-03 · ENE 2023 – SEPT 2023 · 9 MESES</div>
+          <div class="station-head"><div class="station-role">Supervisor de Obras</div><div class="station-org">CRETEC · Colima</div></div>
+          <ul>
+            <li>Supervisé movimientos de tierra y cálculo de volúmenes en proyectos de hasta 44.5 hectáreas.</li>
+            <li>Coordiné equipos de hasta 15 personas en el Aeropuerto Internacional de Colima.</li>
+          </ul>
+        </div>
+        <div class="station">
+          <div class="station-code">EST-04 · OCT 2025 – NOV 2025 · 1 MES</div>
+          <div class="station-head"><div class="station-role">Cadista / Dibujante CAD</div><div class="station-org">SEDENA · Guadalajara</div></div>
+          <ul>
+            <li>Generé planos técnicos y modelos de superficie para proyectos de infraestructura.</li>
+            <li>Realicé cálculos volumétricos y análisis de nivelación.</li>
+          </ul>
+        </div>
       </div>
+    </section>
 
-      <div class="cert-grid reveal">
+    <section id="certificados" class="panel">
+      <div class="eyebrow">Certificados</div>
+      <h2>Formación continua</h2>
+      <div class="cert-grid">
         <div>
-          <div class="cert-row"><span class="cert-name">How to Manage a Remote Team</span><span class="cert-meta">GitLab · Mar 2026</span></div>
-          <div class="cert-row"><span class="cert-name">Cartography</span><span class="cert-meta">Esri · Oct 2025</span></div>
-          <div class="cert-row"><span class="cert-name">Desarrollo inteligente con IA (Cursor + Python)</span><span class="cert-meta">Santander Open Academy · Ago 2025</span></div>
-          <div class="cert-row"><span class="cert-name">Taller Internacional de Geointeligencia Fitosanitaria</span><span class="cert-meta">UASLP · Jul 2025</span></div>
+          <div class="cert-row"><span>How to Manage a Remote Team</span><span class="cert-meta">GitLab · Mar 2026</span></div>
+          <div class="cert-row"><span>Cartography</span><span class="cert-meta">Esri · Oct 2025</span></div>
+          <div class="cert-row"><span>Desarrollo inteligente con IA</span><span class="cert-meta">Santander · Ago 2025</span></div>
+          <div class="cert-row"><span>Geointeligencia Fitosanitaria</span><span class="cert-meta">UASLP · Jul 2025</span></div>
         </div>
         <div>
-          <div class="cert-row"><span class="cert-name">Python for Everyone</span><span class="cert-meta">Esri · May 2025</span></div>
-          <div class="cert-row"><span class="cert-name">Monitoring Global Terrestrial Surface Water Height</span><span class="cert-meta">NASA · May 2025</span></div>
-          <div class="cert-row"><span class="cert-name">Fundamentals of Remote Sensing</span><span class="cert-meta">NASA · Mar 2025</span></div>
-          <div class="cert-row"><span class="cert-name">Fotogrametría con DJI Matrice 300 RTK</span><span class="cert-meta">Estok Soluciones Topográficas · May 2023</span></div>
-          <div class="cert-row"><span class="cert-name">SIG con software libre y código abierto</span><span class="cert-meta">Geoestrategias · Ago 2022</span></div>
+          <div class="cert-row"><span>Python for Everyone</span><span class="cert-meta">Esri · May 2025</span></div>
+          <div class="cert-row"><span>Terrestrial Surface Water Height</span><span class="cert-meta">NASA · May 2025</span></div>
+          <div class="cert-row"><span>Fundamentals of Remote Sensing</span><span class="cert-meta">NASA · Mar 2025</span></div>
+          <div class="cert-row"><span>Fotogrametría DJI Matrice 300 RTK</span><span class="cert-meta">Estok · May 2023</span></div>
         </div>
       </div>
-
-      <div class="award-box reveal">
+      <div class="award-box">
         <span class="tag">Presentación académica</span>
-        <p>"Análisis espacial para identificar sitios óptimos del territorio para la instalación de estaciones de medición de la calidad del aire" — Universidad de Colima, mayo 2023. Presentación de resultados derivados de la investigación aplicada con CONAHCYT ante audiencia académica y técnica.</p>
+        <p>"Análisis espacial para identificar sitios óptimos para estaciones de medición de calidad del aire" — Universidad de Colima, mayo 2023. Resultados derivados de la investigación con CONAHCYT.</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CONTACTO -->
-  <section id="contacto" class="contact-sec" style="border-top:1px solid var(--line);">
-    <div class="wrap">
-      <div class="contact-grid reveal">
-        <div>
-          <div class="contact-title">Levantemos el<br>siguiente <span>proyecto.</span></div>
+    <section id="portafolio" class="panel">
+      <div class="eyebrow">Casos de trabajo</div>
+      <h2>Portafolio</h2>
+      <div class="proj-grid">
+        <div class="proj-card">
+          <span class="proj-tag">Investigación aplicada</span>
+          <h3>Red de monitoreo de calidad del aire — Colima</h3>
+          <p>Metodología estatal para ubicar de forma óptima estaciones de monitoreo de calidad del aire, con datos de campo y análisis geoespacial multicriterio.</p>
+          <div class="proj-metrics"><span>CONAHCYT · Proy. 321542</span></div>
         </div>
-        <ul class="contact-list">
-          <li><span class="k">Email</span><a href="mailto:velazcoochoajosémanuel@gmail.com">velazcoochoajosémanuel@gmail.com</a></li>
-          <li><span class="k">Teléfono</span><a href="tel:+528143597851">+52 814 359 7851</a></li>
-          <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/josemanuelvelazcoochoa/" target="_blank" rel="noopener">josemanuelvelazcoochoa</a></li>
-          <li><span class="k">Ubicación</span><span>Colima, México</span></li>
-        </ul>
+        <div class="proj-card">
+          <span class="proj-tag">Supervisión de obra</span>
+          <h3>Aeropuerto Internacional de Colima</h3>
+          <p>Cálculo de volúmenes, nivelación y control de movimientos de tierra en un proyecto de infraestructura aeroportuaria.</p>
+          <div class="proj-metrics"><span>44.5 ha</span><span>Equipo de 15</span></div>
+        </div>
+        <div class="proj-card">
+          <span class="proj-tag">Modelado CAD</span>
+          <h3>Modelos de superficie — infraestructura</h3>
+          <p>Generación de planos técnicos y modelos de superficie para proyectos de infraestructura militar en Guadalajara.</p>
+          <div class="proj-metrics"><span>SEDENA</span></div>
+        </div>
+        <div class="proj-card">
+          <span class="proj-tag">Divulgación</span>
+          <h3>Ponencia: sitios óptimos de monitoreo</h3>
+          <p>Presentación de resultados de investigación aplicada ante audiencia académica y técnica, Universidad de Colima.</p>
+          <div class="proj-metrics"><span>Mayo 2023</span></div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-</main>
+  </main>
+</div>
 
 <footer>© 2026 José Manuel Velazco Ochoa — Ingeniero Topógrafo Geomático</footer>
 
 <script>
-  // reveal on scroll
-  const items = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-  },{threshold:0.12});
-  items.forEach(i=>io.observe(i));
+  // ---------- Splash ----------
+  const splash = document.getElementById('splash');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let splashTimer;
+
+  function hideSplash(){
+    clearTimeout(splashTimer);
+    splash.classList.add('hide');
+  }
+  splash.addEventListener('click', hideSplash);
+  splashTimer = setTimeout(hideSplash, reducedMotion ? 900 : 3000);
+
+  // ---------- Cube tilt ----------
+  function attachTilt(sceneEl, cubeEl, baseX, baseY, range){
+    if(reducedMotion){
+      cubeEl.style.transform = `rotateX(${baseX}deg) rotateY(${baseY}deg)`;
+      return;
+    }
+    sceneEl.addEventListener('mousemove', (e)=>{
+      const rect = sceneEl.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      cubeEl.style.transform = `rotateX(${baseX - py*range}deg) rotateY(${baseY + px*range}deg)`;
+    });
+    sceneEl.addEventListener('mouseleave', ()=>{
+      cubeEl.style.transform = `rotateX(${baseX}deg) rotateY(${baseY}deg)`;
+    });
+  }
+  attachTilt(document.getElementById('splashScene'), document.getElementById('splashCube'), 0, 0, 18);
+  attachTilt(document.getElementById('sideScene'), document.getElementById('sideCube'), 0, 0, 22);
+
+  // ---------- Navigation ----------
+  const buttons = document.querySelectorAll('.nav-btn');
+  const panels = document.querySelectorAll('.panel');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+    });
+  });
+  document.getElementById('sideCube').closest('.cube-scene').style.cursor = 'pointer';
+  document.getElementById('sideScene').addEventListener('click', ()=>{
+    buttons.forEach(b=>b.classList.remove('active'));
+    panels.forEach(p=>p.classList.remove('active'));
+    document.querySelector('[data-target="acerca"]').classList.add('active');
+    document.getElementById('acerca').classList.add('active');
+  });
+
+  // ---------- Theme toggle (Auto / Claro / Oscuro) ----------
+  const themeBtn = document.getElementById('themeBtn');
+  const themeLabel = document.getElementById('themeLabel');
+  const order = ['auto','light','dark'];
+  const labels = {auto:'Auto', light:'Claro', dark:'Oscuro'};
+  let current = 'auto';
+  try{
+    const saved = localStorage.getItem('jmvo-theme');
+    if(saved && order.includes(saved)) current = saved;
+  }catch(e){}
+
+  function applyTheme(pref){
+    if(pref === 'auto'){ document.documentElement.removeAttribute('data-theme'); }
+    else{ document.documentElement.setAttribute('data-theme', pref); }
+    themeLabel.textContent = labels[pref];
+    try{ localStorage.setItem('jmvo-theme', pref); }catch(e){}
+  }
+  applyTheme(current);
+
+  themeBtn.addEventListener('click', ()=>{
+    const idx = (order.indexOf(current) + 1) % order.length;
+    current = order[idx];
+    applyTheme(current);
+  });
 </script>
 
 </body>
