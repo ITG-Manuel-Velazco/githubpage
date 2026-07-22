@@ -300,7 +300,7 @@
   <div class="cube-scene" id="splashScene" style="--s:170px">
     <div class="cube" id="splashCube">
       <div class="face face-front">
-        <img src="assets/profile.jpg" alt="Foto de perfil" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <img class="js-photo" alt="Foto de perfil" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <div class="fallback">
           <svg viewBox="0 0 100 100"><circle cx="50" cy="35" r="16"/><path d="M20 88 C20 62 34 52 50 52 C66 52 80 62 80 88"/></svg>
         </div>
@@ -318,7 +318,7 @@
       <div class="cube-scene" id="sideScene" style="--s:64px">
         <div class="cube" id="sideCube">
           <div class="face face-front">
-            <img src="assets/profile.jpg" alt="Foto de perfil" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <img class="js-photo" alt="Foto de perfil" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="fallback">
               <svg viewBox="0 0 100 100"><circle cx="50" cy="35" r="16"/><path d="M20 88 C20 62 34 52 50 52 C66 52 80 62 80 88"/></svg>
             </div>
@@ -326,8 +326,8 @@
         </div>
       </div>
       <div>
-        <div class="side-name">José Manuel<br>Velazco Ochoa</div>
-        <div class="side-role">Ing. Topógrafo Geomático</div>
+        <div class="side-name" id="sideName">…</div>
+        <div class="side-role" id="sideRole">…</div>
       </div>
     </div>
 
@@ -346,9 +346,9 @@
         <span id="themeLabel">Auto</span>
       </button>
       <div class="side-contact">
-        <a href="mailto:velazcoochoajosémanuel@gmail.com">Email</a>
-        <a href="tel:+528143597851">Tel</a>
-        <a href="https://www.linkedin.com/in/josemanuelvelazcoochoa/" target="_blank" rel="noopener">LinkedIn</a>
+        <a id="emailLink" href="#">Email</a>
+        <a id="telLink" href="#">Tel</a>
+        <a id="linkedinLink" href="#" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </div>
   </aside>
@@ -358,228 +358,57 @@
     <section id="acerca" class="panel active">
       <div class="eyebrow">Perfil</div>
       <h2>Acerca de mí</h2>
-      <p class="lead">Ingeniero Topógrafo Geomático en etapa inicial, con formación en análisis geoespacial, Sistemas de Información Geográfica (SIG) y procesamiento de datos territoriales. Genero cartografía temática, ejecuto análisis espacial y aplico herramientas GIS para interpretar información geográfica y apoyar procesos de análisis territorial y ambiental.</p>
+      <p class="lead" id="acercaLead">Cargando…</p>
 
-      <div class="badges">
-        <span class="badge">GIS</span>
-        <span class="badge">Teledetección</span>
-        <span class="badge">Cartografía temática</span>
-        <span class="badge">ArcGIS Pro</span>
-        <span class="badge">AutoCAD Civil 3D</span>
-        <span class="badge">GNSS</span>
-        <span class="badge">Análisis espacial</span>
-        <span class="badge">Geodesia</span>
-        <span class="badge">Topografía</span>
-        <span class="badge">Fotogrametría</span>
-        <span class="badge">Monitoreo ambiental</span>
-        <span class="badge">Python</span>
-      </div>
+      <div class="badges" id="acercaBadges"></div>
 
-      <div class="quick-card">
-        <dl>
-          <dt>Ubicación</dt><dd>Colima, México</dd>
-          <dt>Cédula</dt><dd>15282631</dd>
-          <dt>Título</dt><dd>Ing. Topógrafo Geomático — Universidad de Colima</dd>
-          <dt>Software</dt><dd>ArcGIS Pro, ArcMap, QGIS, Global Mapper, AutoCAD Civil 3D, Leica Infinity, Python</dd>
-        </dl>
-      </div>
+      <div class="quick-card" id="quickCard"></div>
 
       <div class="lang-block">
         <div class="lang-title">Señal de idiomas</div>
-        <div class="lang-row"><span class="lang-name">Español</span><span class="signal"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span><span class="lang-level">Nativo</span></div>
-        <div class="lang-row"><span class="lang-name">Inglés</span><span class="signal"><span class="on"></span><span class="on"></span><span></span><span></span></span><span class="lang-level">A2 · en formación</span></div>
-        <div class="lang-row"><span class="lang-name">Portugués</span><span class="signal"><span class="on"></span><span class="on"></span><span></span><span></span></span><span class="lang-level">A2 · en formación</span></div>
+        <div id="langBlock"></div>
       </div>
     </section>
 
     <section id="educacion" class="panel">
       <div class="eyebrow">Formación</div>
       <h2>Educación</h2>
-      <div class="edu-card">
-        <div class="edu-top">
-          <div>
-            <div class="edu-degree">Ingeniero Topógrafo Geomático</div>
-            <div class="edu-school">Universidad de Colima</div>
-          </div>
-          <div class="edu-meta">
-            <div class="edu-years">2020 — 2025 · Titulado</div>
-            <a class="verify-btn" href="https://titulacion.ucol.mx/validar/186120e6-cf70-41bb-bc05-53019a2a3632" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-              Verificar
-            </a>
-          </div>
-        </div>
-        <p>Prácticas profesionales: análisis geoespacial para la identificación de sitios óptimos para estaciones de monitoreo de calidad del aire en el estado de Colima, con aplicación directa en políticas ambientales estatales. Trabajo derivado del Proyecto CONAHCYT No. 321542.</p>
-        <div class="cedula">Cédula Profesional No. 15282631</div>
-      </div>
+      <div id="eduContainer"></div>
     </section>
 
     <section id="experiencia" class="panel">
       <div class="eyebrow">Trayectoria</div>
       <h2>Experiencia</h2>
-      <div class="timeline" id="timeline">
-        <div class="station" data-start="2021-01" data-end="2021-07" data-label="ENE 2021 – JUL 2021 · 7 MESES">
-          <div class="station-code"></div>
-          <div class="station-head"><div class="station-role">Auxiliar de topógrafo</div><div class="station-org">Meridiano Topografía · Colima</div></div>
-          <ul>
-            <li>Ejecuté levantamientos planimétricos y altimétricos.</li>
-            <li>Operé equipos topográficos para captura y análisis de información georreferenciada.</li>
-          </ul>
-        </div>
-        <div class="station" data-start="2021-12" data-end="2024-11" data-label="DIC 2021 – NOV 2024 · 3 AÑOS">
-          <div class="station-code"></div>
-          <div class="station-head"><div class="station-role">Becario de Investigación</div><div class="station-org">CONAHCYT · Colima</div></div>
-          <ul>
-            <li>Propuse y validé una metodología estatal para la ubicación óptima de estaciones de monitoreo de calidad del aire.</li>
-            <li>Desarrollé cartografía temática y bases de datos geoespaciales.</li>
-            <li>Colaboré en informes técnicos que contribuyeron al perfil epidemio-toxicológico del estado de Colima.</li>
-          </ul>
-        </div>
-        <div class="station" data-start="2023-01" data-end="2023-09" data-label="ENE 2023 – SEPT 2023 · 9 MESES">
-          <div class="station-code"></div>
-          <div class="station-head"><div class="station-role">Supervisor de Obras</div><div class="station-org">CRETEC · Colima</div></div>
-          <ul>
-            <li>Supervisé movimientos de tierra y cálculo de volúmenes en proyectos de hasta 44.5 hectáreas.</li>
-            <li>Coordiné equipos de hasta 15 personas en el Aeropuerto Internacional de Colima.</li>
-          </ul>
-        </div>
-        <div class="station" data-start="2025-10" data-end="2025-11" data-label="OCT 2025 – NOV 2025 · 1 MES">
-          <div class="station-code"></div>
-          <div class="station-head"><div class="station-role">Cadista / Dibujante CAD</div><div class="station-org">SEDENA · Guadalajara</div></div>
-          <ul>
-            <li>Generé planos técnicos y modelos de superficie para proyectos de infraestructura.</li>
-            <li>Realicé cálculos volumétricos y análisis de nivelación.</li>
-          </ul>
-        </div>
-      </div>
+      <div class="timeline" id="timeline"></div>
     </section>
 
     <section id="habilidades" class="panel">
       <div class="eyebrow">Competencias</div>
       <h2>Habilidades</h2>
-
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-card-head">
-            <div class="skill-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
-            <h3>Software y análisis GIS</h3>
-          </div>
-          <ul>
-            <li>Dominio de ArcGIS Pro y ArcMap; manejo funcional de QGIS y Global Mapper.</li>
-            <li>Python aplicado a automatización de procesos GIS y análisis de datos geoespaciales.</li>
-            <li>Análisis multicriterio, detección de cambios de uso de suelo y análisis de islas de calor.</li>
-            <li>Estructuración de geodatabases, archivos Shapefile y nociones de SQL.</li>
-          </ul>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-card-head">
-            <div class="skill-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-6-4-9s1.5-6.5 4-9z"/></svg></div>
-            <h3>Geodesia y GNSS</h3>
-          </div>
-          <ul>
-            <li>Postproceso y ajuste de redes geodésicas con Leica Infinity.</li>
-            <li>Procesamiento de archivos RINEX y uso de efemérides precisas y rápidas.</li>
-            <li>Manejo de archivos de calibración de antenas (.atx).</li>
-            <li>Manejo de GPS, Estación Total y Nivel Fijo; métodos de precisión posicional.</li>
-          </ul>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-card-head">
-            <div class="skill-icon"><svg viewBox="0 0 24 24"><path d="M4 20l6-14 4 8 3-5 3 11"/></svg></div>
-            <h3>Topografía y diseño CAD</h3>
-          </div>
-          <ul>
-            <li>Modelado en AutoCAD Civil 3D para cálculo de volúmenes y generación de planos.</li>
-            <li>Generación y edición de Modelos Digitales de Elevación (MDE).</li>
-            <li>Extracción de curvas de nivel y elementos de salida gráfica.</li>
-            <li>Configuración de proyecciones, datums y estándares de precisión cartográfica.</li>
-          </ul>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-card-head">
-            <div class="skill-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v14H8l-4 4V4z"/></svg></div>
-            <h3>Cartografía y teledetección</h3>
-          </div>
-          <ul>
-            <li>Diseño y generación de mapas temáticos digitales bajo estándares de precisión.</li>
-            <li>Fotogrametría con drone (DJI Matrice 300 RTK).</li>
-            <li>Monitoreo ambiental y análisis geoambiental aplicado a políticas públicas.</li>
-            <li>Redacción de informes técnicos de metodología y resultados.</li>
-          </ul>
-        </div>
-      </div>
-
+      <div class="skills-grid" id="skillsGrid"></div>
       <div class="soft-title">Habilidades transversales</div>
-      <div class="soft-grid">
-        <div class="soft-card"><strong>Liderazgo</strong><span>Capacidad para orientar y supervisar procesos de trabajo garantizando la precisión.</span></div>
-        <div class="soft-card"><strong>Comunicación efectiva</strong><span>Exposición de resultados técnicos ante audiencias diversas.</span></div>
-        <div class="soft-card"><strong>Resiliencia y resolución de problemas</strong><span>Enfoque positivo y resolutivo ante desafíos técnicos o imprevistos.</span></div>
-        <div class="soft-card"><strong>Negociación y acuerdos</strong><span>Diálogo orientado a la resolución de problemas.</span></div>
-      </div>
+      <div class="soft-grid" id="softGrid"></div>
     </section>
 
     <section id="certificados" class="panel">
       <div class="eyebrow">Certificados</div>
       <h2>Formación continua</h2>
-      <div class="cert-grid">
-        <div>
-          <div class="cert-row"><span>How to Manage a Remote Team</span><span class="cert-meta">GitLab · Mar 2026</span></div>
-          <div class="cert-row"><span>Cartography</span><span class="cert-meta">Esri · Oct 2025</span></div>
-          <div class="cert-row"><span>Desarrollo inteligente con IA</span><span class="cert-meta">Santander · Ago 2025</span></div>
-          <div class="cert-row"><span>Geointeligencia Fitosanitaria</span><span class="cert-meta">UASLP · Jul 2025</span></div>
-        </div>
-        <div>
-          <div class="cert-row"><span>Python for Everyone</span><span class="cert-meta">Esri · May 2025</span></div>
-          <div class="cert-row"><span>Terrestrial Surface Water Height</span><span class="cert-meta">NASA · May 2025</span></div>
-          <div class="cert-row"><span>Fundamentals of Remote Sensing</span><span class="cert-meta">NASA · Mar 2025</span></div>
-          <div class="cert-row"><span>Fotogrametría DJI Matrice 300 RTK</span><span class="cert-meta">Estok · May 2023</span></div>
-        </div>
-      </div>
-      <div class="award-box">
-        <span class="tag">Presentación académica</span>
-        <p>"Análisis espacial para identificar sitios óptimos para estaciones de medición de calidad del aire" — Universidad de Colima, mayo 2023. Resultados derivados de la investigación con CONAHCYT.</p>
-      </div>
+      <div class="cert-grid" id="certGrid"></div>
+      <div class="award-box" id="awardBox"></div>
     </section>
 
     <section id="portafolio" class="panel">
       <div class="eyebrow">Casos de trabajo</div>
       <h2>Portafolio</h2>
-      <div class="proj-grid">
-        <div class="proj-card">
-          <span class="proj-tag">Investigación aplicada</span>
-          <h3>Red de monitoreo de calidad del aire — Colima</h3>
-          <p>Metodología estatal para ubicar de forma óptima estaciones de monitoreo de calidad del aire, con datos de campo y análisis geoespacial multicriterio.</p>
-          <div class="proj-metrics"><span>CONAHCYT · Proy. 321542</span></div>
-        </div>
-        <div class="proj-card">
-          <span class="proj-tag">Supervisión de obra</span>
-          <h3>Aeropuerto Internacional de Colima</h3>
-          <p>Cálculo de volúmenes, nivelación y control de movimientos de tierra en un proyecto de infraestructura aeroportuaria.</p>
-          <div class="proj-metrics"><span>44.5 ha</span><span>Equipo de 15</span></div>
-        </div>
-        <div class="proj-card">
-          <span class="proj-tag">Modelado CAD</span>
-          <h3>Modelos de superficie — infraestructura</h3>
-          <p>Generación de planos técnicos y modelos de superficie para proyectos de infraestructura militar en Guadalajara.</p>
-          <div class="proj-metrics"><span>SEDENA</span></div>
-        </div>
-        <div class="proj-card">
-          <span class="proj-tag">Divulgación</span>
-          <h3>Ponencia: sitios óptimos de monitoreo</h3>
-          <p>Presentación de resultados de investigación aplicada ante audiencia académica y técnica, Universidad de Colima.</p>
-          <div class="proj-metrics"><span>Mayo 2023</span></div>
-        </div>
-      </div>
+      <div class="proj-grid" id="projGrid"></div>
     </section>
 
   </main>
 </div>
 
-<footer>© 2026 José Manuel Velazco Ochoa — Ingeniero Topógrafo Geomático</footer>
+<footer>© 2026 <span id="footerName">José Manuel Velazco Ochoa</span> — Ingeniero Topógrafo Geomático</footer>
 
+<script src="render.js"></script>
 <script>
   // ---------- Splash ----------
   const splash = document.getElementById('splash');
@@ -611,30 +440,6 @@
   }
   attachTilt(document.getElementById('splashScene'), document.getElementById('splashCube'), 0, 0, 18);
   attachTilt(document.getElementById('sideScene'), document.getElementById('sideCube'), 0, 0, 22);
-
-  // ---------- Experiencia: ordenar automáticamente por fecha ----------
-  // Cada .station trae data-start / data-end (formato YYYY-MM) y data-label (texto a mostrar).
-  // Para agregar una experiencia nueva basta con añadir un bloque .station con esos atributos:
-  // el orden y la numeración EST-0X se recalculan solos, más reciente primero.
-  (function sortTimeline(){
-    const timeline = document.getElementById('timeline');
-    if(!timeline) return;
-    const stations = Array.from(timeline.querySelectorAll('.station'));
-
-    stations.sort((a,b)=>{
-      const aStart = a.dataset.start, bStart = b.dataset.start;
-      if(aStart !== bStart) return bStart.localeCompare(aStart); // más reciente primero
-      // si empiezan el mismo mes, desempata por fecha de fin (la que terminó más tarde va primero)
-      return (b.dataset.end || '').localeCompare(a.dataset.end || '');
-    });
-
-    stations.forEach((station, i)=>{
-      timeline.appendChild(station);
-      const code = station.querySelector('.station-code');
-      const num = String(stations.length - i).padStart(2,'0');
-      code.textContent = `EST-${num} · ${station.dataset.label || ''}`;
-    });
-  })();
 
   // ---------- Navigation ----------
   const buttons = document.querySelectorAll('.nav-btn');
