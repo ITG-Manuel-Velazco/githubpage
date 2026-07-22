@@ -166,7 +166,7 @@
   }
   .eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);}
   .panel h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;letter-spacing:-0.01em;margin-bottom:22px;}
-  .panel > p.lead{color:var(--text-dim);font-size:16px;max-width:90ch;margin-bottom:32px;text-align:justify;hyphens:auto;}
+  .panel > p.lead{color:var(--text-dim);font-size:16px;max-width:none;width:100%;margin-bottom:32px;text-align:justify;hyphens:auto;box-sizing:border-box;}
 
   .badges{display:flex;flex-wrap:wrap;gap:9px;margin:26px 0;}
   .badge{
@@ -196,12 +196,25 @@
 
   /* educacion */
   .edu-card{border:1px solid var(--border);border-radius:14px;padding:36px;background:var(--surface);box-shadow:var(--shadow);}
-  .edu-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;}
+  .edu-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:14px;}
   .edu-degree{font-family:var(--display);font-weight:700;font-size:19px;}
   .edu-school{color:var(--accent);font-family:var(--mono);font-size:12.5px;margin-top:4px;}
   .edu-years{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);}
+  .edu-meta{display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
   .edu-card p{color:var(--text-dim);font-size:14.5px;max-width:100ch;text-align:justify;hyphens:auto;}
   .cedula{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:14px;}
+
+  .verify-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+    color:#fff;background:#1FA663;border:1px solid #1FA663;border-radius:20px;
+    padding:9px 16px;white-space:nowrap;
+    transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
+    box-shadow:0 8px 18px -8px rgba(31,166,99,0.55);
+  }
+  .verify-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;}
+  .verify-btn:hover{background:#188F55;transform:translateY(-1px);box-shadow:0 10px 22px -8px rgba(31,166,99,0.65);}
+  .verify-btn:active{transform:translateY(0);}
 
   /* experiencia */
   .timeline{position:relative;padding-left:30px;margin-top:8px;}
@@ -224,6 +237,24 @@
   .award-box{margin-top:36px;border-left:3px solid var(--accent);padding:18px 24px;background:var(--surface);border-radius:0 12px 12px 0;}
   .award-box .tag{font-family:var(--mono);font-size:10.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:8px;}
   .award-box p{color:var(--text-dim);font-size:13.5px;max-width:100ch;text-align:justify;hyphens:auto;}
+
+  /* habilidades */
+  .skills-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(300px,1fr));gap:20px;}
+  .skill-card{border:1px solid var(--border);border-radius:14px;padding:26px;background:var(--surface);box-shadow:var(--shadow);}
+  .skill-card-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .skill-icon{width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .skill-icon svg{width:19px;height:19px;stroke:var(--accent);fill:none;stroke-width:1.6;}
+  .skill-card h3{font-size:15px;font-weight:600;}
+  .skill-card ul{list-style:none;color:var(--text-dim);font-size:13.5px;}
+  .skill-card ul li{position:relative;padding-left:16px;margin-bottom:9px;text-align:justify;hyphens:auto;}
+  .skill-card ul li::before{content:'—';position:absolute;left:0;color:var(--border);}
+  .skill-card ul li:last-child{margin-bottom:0;}
+  .soft-title{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin:40px 0 16px;display:flex;align-items:center;gap:10px;}
+  .soft-title::before{content:'';width:22px;height:1px;background:var(--accent);}
+  .soft-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(220px,1fr));gap:14px;}
+  .soft-card{border:1px solid var(--border);border-radius:12px;padding:17px 19px;background:var(--bg-alt);}
+  .soft-card strong{display:block;font-family:var(--display);font-size:13.5px;margin-bottom:6px;}
+  .soft-card span{font-size:12.5px;color:var(--text-dim);text-align:justify;hyphens:auto;display:block;}
 
   /* portafolio */
   .proj-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px,1fr));gap:20px;}
@@ -304,6 +335,7 @@
       <button class="nav-btn active" data-target="acerca">Acerca de mí</button>
       <button class="nav-btn" data-target="educacion">Educación</button>
       <button class="nav-btn" data-target="experiencia">Experiencia</button>
+      <button class="nav-btn" data-target="habilidades">Habilidades</button>
       <button class="nav-btn" data-target="certificados">Certificados</button>
       <button class="nav-btn" data-target="portafolio">Portafolio</button>
     </nav>
@@ -369,7 +401,13 @@
             <div class="edu-degree">Ingeniero Topógrafo Geomático</div>
             <div class="edu-school">Universidad de Colima</div>
           </div>
-          <div class="edu-years">2020 — 2025 · Titulado</div>
+          <div class="edu-meta">
+            <div class="edu-years">2020 — 2025 · Titulado</div>
+            <a class="verify-btn" href="https://titulacion.ucol.mx/validar/186120e6-cf70-41bb-bc05-53019a2a3632" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              Verificar
+            </a>
+          </div>
         </div>
         <p>Prácticas profesionales: análisis geoespacial para la identificación de sitios óptimos para estaciones de monitoreo de calidad del aire en el estado de Colima, con aplicación directa en políticas ambientales estatales. Trabajo derivado del Proyecto CONAHCYT No. 321542.</p>
         <div class="cedula">Cédula Profesional No. 15282631</div>
@@ -379,17 +417,17 @@
     <section id="experiencia" class="panel">
       <div class="eyebrow">Trayectoria</div>
       <h2>Experiencia</h2>
-      <div class="timeline">
-        <div class="station">
-          <div class="station-code">EST-01 · ENE 2021 – JUL 2021 · 7 MESES</div>
+      <div class="timeline" id="timeline">
+        <div class="station" data-start="2021-01" data-end="2021-07" data-label="ENE 2021 – JUL 2021 · 7 MESES">
+          <div class="station-code"></div>
           <div class="station-head"><div class="station-role">Auxiliar de topógrafo</div><div class="station-org">Meridiano Topografía · Colima</div></div>
           <ul>
             <li>Ejecuté levantamientos planimétricos y altimétricos.</li>
             <li>Operé equipos topográficos para captura y análisis de información georreferenciada.</li>
           </ul>
         </div>
-        <div class="station">
-          <div class="station-code">EST-02 · DIC 2021 – NOV 2024 · 3 AÑOS</div>
+        <div class="station" data-start="2021-12" data-end="2024-11" data-label="DIC 2021 – NOV 2024 · 3 AÑOS">
+          <div class="station-code"></div>
           <div class="station-head"><div class="station-role">Becario de Investigación</div><div class="station-org">CONAHCYT · Colima</div></div>
           <ul>
             <li>Propuse y validé una metodología estatal para la ubicación óptima de estaciones de monitoreo de calidad del aire.</li>
@@ -397,22 +435,89 @@
             <li>Colaboré en informes técnicos que contribuyeron al perfil epidemio-toxicológico del estado de Colima.</li>
           </ul>
         </div>
-        <div class="station">
-          <div class="station-code">EST-03 · ENE 2023 – SEPT 2023 · 9 MESES</div>
+        <div class="station" data-start="2023-01" data-end="2023-09" data-label="ENE 2023 – SEPT 2023 · 9 MESES">
+          <div class="station-code"></div>
           <div class="station-head"><div class="station-role">Supervisor de Obras</div><div class="station-org">CRETEC · Colima</div></div>
           <ul>
             <li>Supervisé movimientos de tierra y cálculo de volúmenes en proyectos de hasta 44.5 hectáreas.</li>
             <li>Coordiné equipos de hasta 15 personas en el Aeropuerto Internacional de Colima.</li>
           </ul>
         </div>
-        <div class="station">
-          <div class="station-code">EST-04 · OCT 2025 – NOV 2025 · 1 MES</div>
+        <div class="station" data-start="2025-10" data-end="2025-11" data-label="OCT 2025 – NOV 2025 · 1 MES">
+          <div class="station-code"></div>
           <div class="station-head"><div class="station-role">Cadista / Dibujante CAD</div><div class="station-org">SEDENA · Guadalajara</div></div>
           <ul>
             <li>Generé planos técnicos y modelos de superficie para proyectos de infraestructura.</li>
             <li>Realicé cálculos volumétricos y análisis de nivelación.</li>
           </ul>
         </div>
+      </div>
+    </section>
+
+    <section id="habilidades" class="panel">
+      <div class="eyebrow">Competencias</div>
+      <h2>Habilidades</h2>
+
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-card-head">
+            <div class="skill-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+            <h3>Software y análisis GIS</h3>
+          </div>
+          <ul>
+            <li>Dominio de ArcGIS Pro y ArcMap; manejo funcional de QGIS y Global Mapper.</li>
+            <li>Python aplicado a automatización de procesos GIS y análisis de datos geoespaciales.</li>
+            <li>Análisis multicriterio, detección de cambios de uso de suelo y análisis de islas de calor.</li>
+            <li>Estructuración de geodatabases, archivos Shapefile y nociones de SQL.</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-card-head">
+            <div class="skill-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-6-4-9s1.5-6.5 4-9z"/></svg></div>
+            <h3>Geodesia y GNSS</h3>
+          </div>
+          <ul>
+            <li>Postproceso y ajuste de redes geodésicas con Leica Infinity.</li>
+            <li>Procesamiento de archivos RINEX y uso de efemérides precisas y rápidas.</li>
+            <li>Manejo de archivos de calibración de antenas (.atx).</li>
+            <li>Manejo de GPS, Estación Total y Nivel Fijo; métodos de precisión posicional.</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-card-head">
+            <div class="skill-icon"><svg viewBox="0 0 24 24"><path d="M4 20l6-14 4 8 3-5 3 11"/></svg></div>
+            <h3>Topografía y diseño CAD</h3>
+          </div>
+          <ul>
+            <li>Modelado en AutoCAD Civil 3D para cálculo de volúmenes y generación de planos.</li>
+            <li>Generación y edición de Modelos Digitales de Elevación (MDE).</li>
+            <li>Extracción de curvas de nivel y elementos de salida gráfica.</li>
+            <li>Configuración de proyecciones, datums y estándares de precisión cartográfica.</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-card-head">
+            <div class="skill-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v14H8l-4 4V4z"/></svg></div>
+            <h3>Cartografía y teledetección</h3>
+          </div>
+          <ul>
+            <li>Diseño y generación de mapas temáticos digitales bajo estándares de precisión.</li>
+            <li>Fotogrametría con drone (DJI Matrice 300 RTK).</li>
+            <li>Monitoreo ambiental y análisis geoambiental aplicado a políticas públicas.</li>
+            <li>Redacción de informes técnicos de metodología y resultados.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="soft-title">Habilidades transversales</div>
+      <div class="soft-grid">
+        <div class="soft-card"><strong>Liderazgo</strong><span>Capacidad para orientar y supervisar procesos de trabajo garantizando la precisión.</span></div>
+        <div class="soft-card"><strong>Comunicación efectiva</strong><span>Exposición de resultados técnicos ante audiencias diversas.</span></div>
+        <div class="soft-card"><strong>Resiliencia y resolución de problemas</strong><span>Enfoque positivo y resolutivo ante desafíos técnicos o imprevistos.</span></div>
+        <div class="soft-card"><strong>Negociación y acuerdos</strong><span>Diálogo orientado a la resolución de problemas.</span></div>
       </div>
     </section>
 
@@ -506,6 +611,30 @@
   }
   attachTilt(document.getElementById('splashScene'), document.getElementById('splashCube'), 0, 0, 18);
   attachTilt(document.getElementById('sideScene'), document.getElementById('sideCube'), 0, 0, 22);
+
+  // ---------- Experiencia: ordenar automáticamente por fecha ----------
+  // Cada .station trae data-start / data-end (formato YYYY-MM) y data-label (texto a mostrar).
+  // Para agregar una experiencia nueva basta con añadir un bloque .station con esos atributos:
+  // el orden y la numeración EST-0X se recalculan solos, más reciente primero.
+  (function sortTimeline(){
+    const timeline = document.getElementById('timeline');
+    if(!timeline) return;
+    const stations = Array.from(timeline.querySelectorAll('.station'));
+
+    stations.sort((a,b)=>{
+      const aStart = a.dataset.start, bStart = b.dataset.start;
+      if(aStart !== bStart) return bStart.localeCompare(aStart); // más reciente primero
+      // si empiezan el mismo mes, desempata por fecha de fin (la que terminó más tarde va primero)
+      return (b.dataset.end || '').localeCompare(a.dataset.end || '');
+    });
+
+    stations.forEach((station, i)=>{
+      timeline.appendChild(station);
+      const code = station.querySelector('.station-code');
+      const num = String(stations.length - i).padStart(2,'0');
+      code.textContent = `EST-${num} · ${station.dataset.label || ''}`;
+    });
+  })();
 
   // ---------- Navigation ----------
   const buttons = document.querySelectorAll('.nav-btn');
