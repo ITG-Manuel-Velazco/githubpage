@@ -177,75 +177,49 @@
 
   /* ================= LISTÓN DORADO DE LINKEDIN ================= */
   .li-strip{
-    position:fixed;top:0;left:0;height:46px;
-    width:0;max-width:0;overflow:visible;z-index:150;
-    display:flex;align-items:center;
-    transition:width .7s cubic-bezier(.16,.84,.24,1), max-width .7s cubic-bezier(.16,.84,.24,1);
+    position:fixed;top:0;left:0;z-index:150;
+    max-width:min(210px, calc(100vw - 32px));
+    opacity:0;transform:scale(.9) translateX(-6px);
+    transform-origin:left center;
+    transition:opacity .35s ease, transform .35s ease;
     pointer-events:none;
     filter:drop-shadow(0 10px 18px rgba(120,84,10,.4));
   }
   .li-strip.open{
-    width:var(--strip-max, 190px);
-    max-width:var(--strip-max, 190px);
+    opacity:1;transform:scale(1) translateX(0);
     pointer-events:auto;
   }
 
-  /* pequeño "rollo" dorado que se ve un instante y se desvanece, como si el listón saliera de él */
-  .li-roll{
-    position:absolute;left:-4px;top:50%;
-    width:14px;height:46px;border-radius:7px;
-    background:linear-gradient(180deg,#fff6d8,#d9a83f 35%,#8a5f16 62%,#f7e3a1 100%);
-    box-shadow:inset 0 0 0 1px rgba(110,74,10,.45);
-    opacity:0;transform:translateY(-50%) scale(1);
-  }
-  .li-strip.open .li-roll{
-    animation:li-roll-fade .65s ease-out forwards;
-  }
-  @keyframes li-roll-fade{
-    0%{opacity:1;transform:translateY(-50%) scale(1);}
-    100%{opacity:0;transform:translateY(-50%) scale(.35);}
-  }
-
   .li-ribbon{
-    position:relative;display:flex;align-items:center;gap:9px;
-    height:100%;width:100%;
-    padding:0 26px 0 16px;
+    position:relative;display:flex;align-items:center;gap:10px;
+    height:46px;padding:0 22px 0 16px;
     color:#54390A;white-space:nowrap;overflow:hidden;
-    background:
-      linear-gradient(180deg,#FFF7DA 0%,#F6D77C 18%,#C99B3A 42%,#9C6A17 50%,#C99B3A 58%,#FBE9AE 80%,#F3D585 100%);
+    background:linear-gradient(180deg,#FFF7DA 0%,#F6D77C 18%,#C99B3A 42%,#9C6A17 50%,#C99B3A 58%,#FBE9AE 80%,#F3D585 100%);
     clip-path:polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.7), inset 0 -1px 0 rgba(90,60,5,.35);
     transition:filter .2s ease;
   }
   .li-ribbon:hover{filter:brightness(1.06);}
-  .li-strip.open .li-ribbon{
-    animation:li-unfurl .6s cubic-bezier(.34,1.42,.4,1);
-  }
-  @keyframes li-unfurl{
-    0%{transform:scaleY(.72) skewX(-6deg);filter:brightness(.82);}
-    55%{transform:scaleY(1.05) skewX(2deg);}
-    100%{transform:scaleY(1) skewX(0deg);filter:brightness(1);}
-  }
 
-  /* textura tipo tela/satín */
+  /* textura tipo satín */
   .li-ribbon::before{
     content:'';position:absolute;inset:0;pointer-events:none;
     background:repeating-linear-gradient(96deg, rgba(255,255,255,.32) 0px, rgba(255,255,255,.32) 1px, transparent 1px, transparent 5px);
     mix-blend-mode:overlay;opacity:.55;
   }
-  /* brillo que recorre el listón al desenrollarse */
+  /* brillo continuo, como metal pulido moviéndose sobre el listón */
   .li-ribbon::after{
     content:'';position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(100deg, transparent 25%, rgba(255,255,255,.95) 45%, transparent 62%);
-    background-size:260% 100%;background-position:160% 0;opacity:0;
+    background:linear-gradient(100deg, transparent 30%, rgba(255,255,255,.85) 48%, transparent 66%);
+    background-size:260% 100%;background-position:160% 0;
   }
   .li-strip.open .li-ribbon::after{
-    animation:li-shine-sweep 1.05s ease-out .5s forwards;
+    animation:li-shine-sweep 2.8s ease-in-out .2s infinite;
   }
   @keyframes li-shine-sweep{
-    0%{background-position:160% 0;opacity:0;}
-    12%{opacity:1;}
-    100%{background-position:-50% 0;opacity:0;}
+    0%{background-position:160% 0;}
+    40%{background-position:-40% 0;}
+    100%{background-position:-40% 0;}
   }
 
   .li-strip-icon{flex-shrink:0;width:22px;height:22px;position:relative;z-index:1;filter:drop-shadow(0 1px 1px rgba(80,50,0,.35));}
@@ -393,8 +367,7 @@
     .side-bottom{flex-direction:row;order:2;}
     .content{padding:44px 24px 80px;}
     footer{padding:30px 24px;}
-    .li-strip{height:42px;}
-    .li-ribbon{padding:0 22px 0 14px;gap:8px;}
+    .li-ribbon{height:42px;padding:0 20px 0 14px;gap:8px;}
     .li-strip-text{font-size:13px;}
   }
 </style>
@@ -521,7 +494,6 @@
 <footer>© 2026 <span id="footerName">José Manuel Velazco Ochoa</span> — Ingeniero Topógrafo Geomático</footer>
 
 <div class="li-strip" id="liStrip">
-  <span class="li-roll" aria-hidden="true"></span>
   <a class="li-ribbon" href="https://www.linkedin.com/in/josemanuelvelazcoochoa/" target="_blank" rel="noopener">
     <span class="li-strip-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24">
@@ -602,11 +574,9 @@
     if(isMobile){
       liStrip.style.top = `${rect.bottom + 10}px`;
       liStrip.style.left = `16px`;
-      liStrip.style.setProperty('--strip-max', `min(190px, calc(100vw - 32px))`);
     }else{
       liStrip.style.top = `${rect.top + rect.height / 2 - 23}px`;
       liStrip.style.left = `${rect.right + 14}px`;
-      liStrip.style.setProperty('--strip-max', `min(190px, calc(100vw - ${rect.right + 30}px))`);
     }
   }
 
