@@ -155,7 +155,7 @@
   .side-contact a:hover{color:var(--accent);}
 
   /* ================= CONTENT ================= */
-  .content{flex:1;padding:64px 64px 100px;max-width:920px;}
+  .content{flex:1;padding:64px 72px 100px;max-width:none;width:100%;}
   .panel{display:none;}
   .panel.active{display:block;animation:fadeIn .5s ease forwards;}
   @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
@@ -166,7 +166,7 @@
   }
   .eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);}
   .panel h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;letter-spacing:-0.01em;margin-bottom:22px;}
-  .panel > p.lead{color:var(--text-dim);font-size:16px;max-width:62ch;margin-bottom:32px;}
+  .panel > p.lead{color:var(--text-dim);font-size:16px;max-width:90ch;margin-bottom:32px;text-align:justify;hyphens:auto;}
 
   .badges{display:flex;flex-wrap:wrap;gap:9px;margin:26px 0;}
   .badge{
@@ -195,12 +195,12 @@
   .lang-level{color:var(--text-dim);font-size:11.5px;}
 
   /* educacion */
-  .edu-card{border:1px solid var(--border);border-radius:14px;padding:30px;background:var(--surface);box-shadow:var(--shadow);}
+  .edu-card{border:1px solid var(--border);border-radius:14px;padding:36px;background:var(--surface);box-shadow:var(--shadow);}
   .edu-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;}
   .edu-degree{font-family:var(--display);font-weight:700;font-size:19px;}
   .edu-school{color:var(--accent);font-family:var(--mono);font-size:12.5px;margin-top:4px;}
   .edu-years{font-family:var(--mono);font-size:11.5px;color:var(--text-dim);}
-  .edu-card p{color:var(--text-dim);font-size:14.5px;max-width:68ch;}
+  .edu-card p{color:var(--text-dim);font-size:14.5px;max-width:100ch;text-align:justify;hyphens:auto;}
   .cedula{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-top:14px;}
 
   /* experiencia */
@@ -213,22 +213,20 @@
   .station-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
   .station-role{font-family:var(--display);font-weight:600;font-size:17px;}
   .station-org{font-family:var(--mono);font-size:12.5px;color:var(--text-dim);}
-  .station ul{list-style:none;color:var(--text-dim);font-size:14px;max-width:64ch;margin-top:8px;}
+  .station ul{list-style:none;color:var(--text-dim);font-size:14px;max-width:100ch;margin-top:8px;text-align:justify;hyphens:auto;}
   .station ul li{position:relative;padding-left:16px;margin-bottom:5px;}
   .station ul li::before{content:'—';position:absolute;left:0;color:var(--border);}
 
   /* certificados */
-  .cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 30px;}
-  @media (max-width:640px){.cert-grid{grid-template-columns:1fr;}}
+  .cert-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(300px,1fr));gap:0 34px;}
   .cert-row{display:flex;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);font-size:13.5px;}
   .cert-meta{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);white-space:nowrap;text-align:right;}
   .award-box{margin-top:36px;border-left:3px solid var(--accent);padding:18px 24px;background:var(--surface);border-radius:0 12px 12px 0;}
   .award-box .tag{font-family:var(--mono);font-size:10.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:8px;}
-  .award-box p{color:var(--text-dim);font-size:13.5px;}
+  .award-box p{color:var(--text-dim);font-size:13.5px;max-width:100ch;text-align:justify;hyphens:auto;}
 
   /* portafolio */
-  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-  @media (max-width:640px){.proj-grid{grid-template-columns:1fr;}}
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px,1fr));gap:20px;}
   .proj-card{
     border:1px solid var(--border);border-radius:14px;padding:24px;background:var(--surface);
     transition:transform .25s ease, box-shadow .25s ease;
@@ -236,7 +234,7 @@
   .proj-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
   .proj-tag{font-family:var(--mono);font-size:10.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:block;}
   .proj-card h3{font-size:16px;font-weight:600;margin-bottom:8px;}
-  .proj-card p{font-size:13.5px;color:var(--text-dim);}
+  .proj-card p{font-size:13.5px;color:var(--text-dim);text-align:justify;hyphens:auto;}
   .proj-metrics{display:flex;gap:14px;margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--text-dim);}
 
   footer{
@@ -267,7 +265,7 @@
 <body>
 
 <!-- ===== SPLASH ===== -->
-<div class="splash" id="splash">
+<div class="splash" id="splash" tabindex="0" role="button" aria-label="Tocar para continuar">
   <div class="cube-scene" id="splashScene" style="--s:170px">
     <div class="cube" id="splashCube">
       <div class="face face-front">
@@ -481,14 +479,14 @@
   // ---------- Splash ----------
   const splash = document.getElementById('splash');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let splashTimer;
 
   function hideSplash(){
-    clearTimeout(splashTimer);
     splash.classList.add('hide');
   }
   splash.addEventListener('click', hideSplash);
-  splashTimer = setTimeout(hideSplash, reducedMotion ? 900 : 3000);
+  splash.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); hideSplash(); }
+  });
 
   // ---------- Cube tilt ----------
   function attachTilt(sceneEl, cubeEl, baseX, baseY, range){
