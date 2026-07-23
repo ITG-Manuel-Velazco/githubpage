@@ -1,0 +1,182 @@
+{
+  "perfil": {
+    "nombre": "José Manuel",
+    "apellidos": "Velazco Ochoa",
+    "rol": "Ing. Topógrafo Geomático",
+    "foto": "assets/profile.jpg",
+    "email": "velazcoochoajosémanuel@gmail.com",
+    "telefono_display": "+52 814 359 7851",
+    "telefono_link": "+528143597851",
+    "linkedin": "https://www.linkedin.com/in/josemanuelvelazcoochoa/"
+  },
+
+  "acerca": {
+    "lead": "Ingeniero Topógrafo Geomático en etapa inicial, con formación en análisis geoespacial, Sistemas de Información Geográfica (SIG) y procesamiento de datos territoriales. Genero cartografía temática, ejecuto análisis espacial y aplico herramientas GIS para interpretar información geográfica y apoyar procesos de análisis territorial y ambiental.",
+    "badges": ["GIS", "Teledetección", "Cartografía temática", "ArcGIS Pro", "AutoCAD Civil 3D", "GNSS", "Análisis espacial", "Geodesia", "Topografía", "Fotogrametría", "Monitoreo ambiental", "Python"],
+    "datos_rapidos": [
+      { "etiqueta": "Ubicación", "valor": "Colima, México" },
+      { "etiqueta": "Cédula", "valor": "15282631" },
+      { "etiqueta": "Título", "valor": "Ing. Topógrafo Geomático — Universidad de Colima" },
+      { "etiqueta": "Software", "valor": "ArcGIS Pro, ArcMap, QGIS, Global Mapper, AutoCAD Civil 3D, Leica Infinity, Python" }
+    ],
+    "idiomas": [
+      { "nombre": "Español", "nivel": 4, "etiqueta": "Nativo" },
+      { "nombre": "Inglés", "nivel": 2, "etiqueta": "A2 · en formación" },
+      { "nombre": "Portugués", "nivel": 2, "etiqueta": "A2 · en formación" }
+    ]
+  },
+
+  "educacion": [
+    {
+      "titulo": "Ingeniero Topógrafo Geomático",
+      "escuela": "Universidad de Colima",
+      "periodo": "2020 — 2025 · Titulado",
+      "descripcion": "Prácticas profesionales: análisis geoespacial para la identificación de sitios óptimos para estaciones de monitoreo de calidad del aire en el estado de Colima, con aplicación directa en políticas ambientales estatales. Trabajo derivado del Proyecto CONAHCYT No. 321542.",
+      "cedula": "Cédula Profesional No. 15282631",
+      "verificar_url": "https://titulacion.ucol.mx/validar/186120e6-cf70-41bb-bc05-53019a2a3632"
+    }
+  ],
+
+  "experiencia": [
+    {
+      "puesto": "Auxiliar de topógrafo",
+      "organizacion": "Meridiano Topografía · Colima",
+      "inicio": "2021-01",
+      "fin": "2021-07",
+      "etiqueta_fecha": "ENE 2021 – JUL 2021 · 7 MESES",
+      "bullets": [
+        "Ejecuté levantamientos planimétricos y altimétricos.",
+        "Operé equipos topográficos para captura y análisis de información georreferenciada."
+      ]
+    },
+    {
+      "puesto": "Becario de Investigación",
+      "organizacion": "CONAHCYT · Colima",
+      "inicio": "2021-12",
+      "fin": "2024-11",
+      "etiqueta_fecha": "DIC 2021 – NOV 2024 · 3 AÑOS",
+      "bullets": [
+        "Propuse y validé una metodología estatal para la ubicación óptima de estaciones de monitoreo de calidad del aire.",
+        "Desarrollé cartografía temática y bases de datos geoespaciales.",
+        "Colaboré en informes técnicos que contribuyeron al perfil epidemio-toxicológico del estado de Colima."
+      ]
+    },
+    {
+      "puesto": "Supervisor de Obras",
+      "organizacion": "CRETEC · Colima",
+      "inicio": "2023-01",
+      "fin": "2023-09",
+      "etiqueta_fecha": "ENE 2023 – SEPT 2023 · 9 MESES",
+      "bullets": [
+        "Supervisé movimientos de tierra y cálculo de volúmenes en proyectos de hasta 44.5 hectáreas.",
+        "Coordiné equipos de hasta 15 personas en el Aeropuerto Internacional de Colima."
+      ]
+    },
+    {
+      "puesto": "Cadista / Dibujante CAD",
+      "organizacion": "SEDENA · Guadalajara",
+      "inicio": "2025-10",
+      "fin": "2025-11",
+      "etiqueta_fecha": "OCT 2025 – NOV 2025 · 1 MES",
+      "bullets": [
+        "Generé planos técnicos y modelos de superficie para proyectos de infraestructura.",
+        "Realicé cálculos volumétricos y análisis de nivelación."
+      ]
+    }
+  ],
+
+  "habilidades": {
+    "duras": [
+      {
+        "icono": "grid",
+        "titulo": "Software y análisis GIS",
+        "items": [
+          "Dominio de ArcGIS Pro y ArcMap; manejo funcional de QGIS y Global Mapper.",
+          "Python aplicado a automatización de procesos GIS y análisis de datos geoespaciales.",
+          "Análisis multicriterio, detección de cambios de uso de suelo y análisis de islas de calor.",
+          "Estructuración de geodatabases, archivos Shapefile y nociones de SQL."
+        ]
+      },
+      {
+        "icono": "globo",
+        "titulo": "Geodesia y GNSS",
+        "items": [
+          "Postproceso y ajuste de redes geodésicas con Leica Infinity.",
+          "Procesamiento de archivos RINEX y uso de efemérides precisas y rápidas.",
+          "Manejo de archivos de calibración de antenas (.atx).",
+          "Manejo de GPS, Estación Total y Nivel Fijo; métodos de precisión posicional."
+        ]
+      },
+      {
+        "icono": "terreno",
+        "titulo": "Topografía y diseño CAD",
+        "items": [
+          "Modelado en AutoCAD Civil 3D para cálculo de volúmenes y generación de planos.",
+          "Generación y edición de Modelos Digitales de Elevación (MDE).",
+          "Extracción de curvas de nivel y elementos de salida gráfica.",
+          "Configuración de proyecciones, datums y estándares de precisión cartográfica."
+        ]
+      },
+      {
+        "icono": "mapa",
+        "titulo": "Cartografía y teledetección",
+        "items": [
+          "Diseño y generación de mapas temáticos digitales bajo estándares de precisión.",
+          "Fotogrametría con drone (DJI Matrice 300 RTK).",
+          "Monitoreo ambiental y análisis geoambiental aplicado a políticas públicas.",
+          "Redacción de informes técnicos de metodología y resultados."
+        ]
+      }
+    ],
+    "blandas": [
+      { "titulo": "Liderazgo", "descripcion": "Capacidad para orientar y supervisar procesos de trabajo garantizando la precisión." },
+      { "titulo": "Comunicación efectiva", "descripcion": "Exposición de resultados técnicos ante audiencias diversas." },
+      { "titulo": "Resiliencia y resolución de problemas", "descripcion": "Enfoque positivo y resolutivo ante desafíos técnicos o imprevistos." },
+      { "titulo": "Negociación y acuerdos", "descripcion": "Diálogo orientado a la resolución de problemas." }
+    ]
+  },
+
+  "certificados": {
+    "lista": [
+      { "nombre": "How to Manage a Remote Team", "meta": "GitLab · Mar 2026" },
+      { "nombre": "Cartography", "meta": "Esri · Oct 2025" },
+      { "nombre": "Desarrollo inteligente con IA", "meta": "Santander · Ago 2025" },
+      { "nombre": "Geointeligencia Fitosanitaria", "meta": "UASLP · Jul 2025" },
+      { "nombre": "Python for Everyone", "meta": "Esri · May 2025" },
+      { "nombre": "Terrestrial Surface Water Height", "meta": "NASA · May 2025" },
+      { "nombre": "Fundamentals of Remote Sensing", "meta": "NASA · Mar 2025" },
+      { "nombre": "Fotogrametría DJI Matrice 300 RTK", "meta": "Estok · May 2023" }
+    ],
+    "premio": {
+      "etiqueta": "Presentación académica",
+      "texto": "\"Análisis espacial para identificar sitios óptimos para estaciones de medición de calidad del aire\" — Universidad de Colima, mayo 2023. Resultados derivados de la investigación con CONAHCYT."
+    }
+  },
+
+  "portafolio": [
+    {
+      "etiqueta": "Investigación aplicada",
+      "titulo": "Red de monitoreo de calidad del aire — Colima",
+      "descripcion": "Metodología estatal para ubicar de forma óptima estaciones de monitoreo de calidad del aire, con datos de campo y análisis geoespacial multicriterio.",
+      "metricas": ["CONAHCYT · Proy. 321542"]
+    },
+    {
+      "etiqueta": "Supervisión de obra",
+      "titulo": "Aeropuerto Internacional de Colima",
+      "descripcion": "Cálculo de volúmenes, nivelación y control de movimientos de tierra en un proyecto de infraestructura aeroportuaria.",
+      "metricas": ["44.5 ha", "Equipo de 15"]
+    },
+    {
+      "etiqueta": "Modelado CAD",
+      "titulo": "Modelos de superficie — infraestructura",
+      "descripcion": "Generación de planos técnicos y modelos de superficie para proyectos de infraestructura militar en Guadalajara.",
+      "metricas": ["SEDENA"]
+    },
+    {
+      "etiqueta": "Divulgación",
+      "titulo": "Ponencia: sitios óptimos de monitoreo",
+      "descripcion": "Presentación de resultados de investigación aplicada ante audiencia académica y técnica, Universidad de Colima.",
+      "metricas": ["Mayo 2023"]
+    }
+  ]
+}
