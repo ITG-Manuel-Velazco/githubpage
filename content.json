@@ -3,7 +3,7 @@
     "nombre": "José Manuel",
     "apellidos": "Velazco Ochoa",
     "rol": "Ing. Topógrafo Geomático",
-    "foto": "Graduado_Fondo_Azu_70Kl.jpg",
+    "foto": "assets/profile.jpg",
     "email": "velazcoochoajosémanuel@gmail.com",
     "telefono_display": "+52 814 359 7851",
     "telefono_link": "+528143597851",
@@ -155,28 +155,92 @@
 
   "portafolio": [
     {
-      "etiqueta": "Investigación aplicada",
-      "titulo": "Red de monitoreo de calidad del aire — Colima",
-      "descripcion": "Metodología estatal para ubicar de forma óptima estaciones de monitoreo de calidad del aire, con datos de campo y análisis geoespacial multicriterio.",
-      "metricas": ["CONAHCYT · Proy. 321542"]
+      "numero": "01",
+      "icono": "mapa",
+      "titulo": "Cartografía Temática",
+      "descripcion": "Mapas de uso de suelo, cobertura vegetal, hidrología y más.",
+      "proyectos": [
+        { "proximamente": true, "titulo": "Próximo caso de estudio", "descripcion": "Mapas temáticos digitales en preparación para publicarse aquí." }
+      ]
     },
     {
-      "etiqueta": "Supervisión de obra",
-      "titulo": "Aeropuerto Internacional de Colima",
-      "descripcion": "Cálculo de volúmenes, nivelación y control de movimientos de tierra en un proyecto de infraestructura aeroportuaria.",
-      "metricas": ["44.5 ha", "Equipo de 15"]
+      "numero": "02",
+      "icono": "capas",
+      "titulo": "Análisis Espacial",
+      "descripcion": "Modelos multicriterio, análisis geoespacial y SIG aplicado.",
+      "proyectos": [
+        {
+          "titulo": "Red de monitoreo de calidad del aire — Colima",
+          "descripcion": "Metodología estatal para ubicar de forma óptima estaciones de monitoreo de calidad del aire, con datos de campo y análisis geoespacial multicriterio.",
+          "meta": "ArcGIS Pro · CONAHCYT 321542"
+        }
+      ]
     },
     {
-      "etiqueta": "Modelado CAD",
-      "titulo": "Modelos de superficie — infraestructura",
-      "descripcion": "Generación de planos técnicos y modelos de superficie para proyectos de infraestructura militar en Guadalajara.",
-      "metricas": ["SEDENA"]
+      "numero": "03",
+      "icono": "dron",
+      "titulo": "Fotogrametría",
+      "descripcion": "Modelos 3D, ortomosaicos y nubes de puntos.",
+      "proyectos": [
+        { "proximamente": true, "titulo": "Próximo caso de estudio", "descripcion": "Vuelos con DJI Matrice 300 RTK en proceso de documentación." }
+      ]
     },
     {
-      "etiqueta": "Divulgación",
-      "titulo": "Ponencia: sitios óptimos de monitoreo",
-      "descripcion": "Presentación de resultados de investigación aplicada ante audiencia académica y técnica, Universidad de Colima.",
-      "metricas": ["Mayo 2023"]
+      "numero": "04",
+      "icono": "hoja",
+      "titulo": "Monitoreo Ambiental",
+      "descripcion": "Análisis multitemporal, calidad del aire y cambio de uso de suelo.",
+      "proyectos": [
+        { "proximamente": true, "titulo": "Próximo caso de estudio", "descripcion": "Resultados del perfil epidemio-toxicológico de Colima en preparación." }
+      ]
+    },
+    {
+      "numero": "05",
+      "icono": "terreno",
+      "titulo": "Topografía",
+      "descripcion": "Levantamientos, modelos de superficie y diseño CAD.",
+      "proyectos": [
+        {
+          "titulo": "Modelos de superficie — infraestructura",
+          "descripcion": "Generación de planos técnicos y modelos de superficie para proyectos de infraestructura militar en Guadalajara.",
+          "meta": "AutoCAD Civil 3D · SEDENA"
+        }
+      ]
+    },
+    {
+      "numero": "06",
+      "icono": "infraestructura",
+      "titulo": "Infraestructura",
+      "descripcion": "Obras civiles, control de volúmenes y supervisión de obra.",
+      "proyectos": [
+        {
+          "titulo": "Aeropuerto Internacional de Colima",
+          "descripcion": "Cálculo de volúmenes, nivelación y control de movimientos de tierra en un proyecto de infraestructura aeroportuaria de hasta 44.5 hectáreas, con un equipo de 15 personas en campo.",
+          "meta": "CRETEC · 44.5 ha"
+        }
+      ]
+    },
+    {
+      "numero": "07",
+      "icono": "globo",
+      "titulo": "Geodesia y GNSS",
+      "descripcion": "Procesamiento GNSS, ajuste de redes y precisión posicional.",
+      "proyectos": [
+        { "proximamente": true, "titulo": "Próximo caso de estudio", "descripcion": "Postprocesos con Leica Infinity y archivos RINEX en preparación." }
+      ]
+    },
+    {
+      "numero": "08",
+      "icono": "pin",
+      "titulo": "Otros Proyectos",
+      "descripcion": "Divulgación, ponencias y proyectos experimentales.",
+      "proyectos": [
+        {
+          "titulo": "Ponencia: sitios óptimos de monitoreo",
+          "descripcion": "Presentación de resultados de investigación aplicada ante audiencia académica y técnica, Universidad de Colima.",
+          "meta": "Mayo 2023"
+        }
+      ]
     }
   ]
 }

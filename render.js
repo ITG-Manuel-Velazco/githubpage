@@ -15,8 +15,14 @@ const ICONS = Object.freeze({
   grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
   globo: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-6-4-9s1.5-6.5 4-9z"/>',
   terreno: '<path d="M4 20l6-14 4 8 3-5 3 11"/>',
-  mapa: '<path d="M4 4h16v14H8l-4 4V4z"/>'
+  mapa: '<path d="M4 4h16v14H8l-4 4V4z"/>',
+  capas: '<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>',
+  dron: '<circle cx="12" cy="12" r="2"/><path d="M12 10V6M12 14v4M10 12H6M14 12h4"/><circle cx="6" cy="6" r="1.6"/><circle cx="18" cy="6" r="1.6"/><circle cx="6" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/>',
+  hoja: '<path d="M5 21c0-9 6-16 15-16 0 9-6 16-15 16z"/><path d="M5 21c2.5-5 6-8.5 11-11"/>',
+  infraestructura: '<path d="M10 3L4 21M14 3l6 18M9 14h6"/>',
+  pin: '<path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/>'
 });
+window.__portafolioIcons = ICONS;
 
 /* ------------------------------------------------------------------ */
 /* Utilidades                                                          */
@@ -28,6 +34,7 @@ function esc(value){
   div.textContent = value == null ? '' : String(value);
   return div.innerHTML;
 }
+window.__escHtml = esc;
 
 /**
  * Busca un elemento por id. Si no existe, avisa en consola en vez de
@@ -226,12 +233,31 @@ function renderCertificados(data){
 }
 
 function renderPortafolio(data){
-  setHTML('projGrid', data.portafolio.map(proj => `
-    <div class="proj-card">
-      <span class="proj-tag">${esc(proj.etiqueta)}</span>
-      <h3>${esc(proj.titulo)}</h3>
-      <p>${esc(proj.descripcion)}</p>
-      <div class="proj-metrics">${proj.metricas.map(m => `<span>${esc(m)}</span>`).join('')}</div>
+  const categorias = data.portafolio;
+
+  // Expone las categorías completas (con sus proyectos) para que el script
+  // de interacción (abrir/cerrar carpeta) las use sin tener que re-parsear HTML.
+  window.__portafolioCategorias = categorias;
+
+  setHTML('folderList', categorias.map((cat, i) => `
+    <div class="folder-row" data-index="${i}" tabindex="0" role="button"
+         aria-label="Ver proyectos de ${esc(cat.titulo)}" aria-expanded="false">
+      <div class="folder-main">
+        <div class="folder-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[cat.icono] || ICONS.grid}</svg></div>
+        <div class="folder-text">
+          <div class="folder-num">${esc(cat.numero)}</div>
+          <div class="folder-title">${esc(cat.titulo)}</div>
+          <div class="folder-desc">${esc(cat.descripcion)}</div>
+        </div>
+      </div>
+      <div class="folder-preview">
+        ${cat.proyectos.slice(0, 4).map(p => `
+          <div class="folder-thumb ${p.proximamente ? 'is-soon' : ''}">
+            <svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[cat.icono] || ICONS.grid}</svg>
+          </div>
+        `).join('')}
+        <svg class="folder-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </div>
     </div>
   `).join(''));
 }

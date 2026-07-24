@@ -150,6 +150,31 @@
 
   /* ================= APP LAYOUT ================= */
   .app{display:flex;width:100%;min-height:100vh;}
+
+  /* ===== Modo "app de escritorio" (solo mientras Portafolio está activo) =====
+     Fija el viewport completo (sidebar + contenido + footer caben en una sola
+     pantalla) y deja que únicamente la lista/detalle de carpetas haga scroll
+     interno. El resto de secciones no se ve afectado: al salir de Portafolio
+     esta clase se quita y el documento vuelve a su scroll normal. */
+  body.portfolio-mode{
+    height:100vh;overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  body.portfolio-mode .app{flex:1 1 auto;min-height:0;}
+  body.portfolio-mode .sidebar{height:auto;position:static;}
+  body.portfolio-mode footer{flex-shrink:0;}
+  body.portfolio-mode .content{
+    display:flex;flex-direction:column;overflow:hidden;min-height:0;
+    padding:40px 56px 28px;
+  }
+  body.portfolio-mode #portafolio.panel.active{
+    display:flex;flex-direction:column;flex:1;min-height:0;
+  }
+  body.portfolio-mode #portafolio > .eyebrow,
+  body.portfolio-mode #portafolio > h2{flex-shrink:0;}
+  body.portfolio-mode #portafolio > .eyebrow{margin-bottom:10px;}
+  body.portfolio-mode #portafolio > h2{margin-bottom:16px;}
+
   .sidebar{
     width:280px;flex-shrink:0;
     background:var(--bg-alt);
@@ -344,17 +369,134 @@
   .soft-card strong{display:block;font-family:var(--display);font-size:13.5px;margin-bottom:6px;}
   .soft-card span{font-size:12.5px;color:var(--text-dim);text-align:justify;hyphens:auto;display:block;}
 
-  /* portafolio */
-  .proj-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px,1fr));gap:20px;}
-  .proj-card{
-    border:1px solid var(--border);border-radius:14px;padding:24px;background:var(--surface);
+  /* ================= PORTAFOLIO: explorador de carpetas ================= */
+  .folder-wrap{position:relative;flex:1;min-height:0;}
+
+  .folder-list{
+    position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;
+    display:flex;flex-direction:column;gap:10px;
+    padding-right:6px;
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .folder-wrap.is-expanded .folder-list{
+    opacity:0;transform:translateX(-16px);pointer-events:none;
+  }
+
+  .folder-row{
+    position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;
+    padding:20px 22px;border-radius:14px;cursor:pointer;flex-shrink:0;
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+    border:1px solid var(--border);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, box-shadow .3s ease, margin .3s ease;
+  }
+  .folder-row:hover, .folder-row:focus-visible{
+    border-color:var(--accent-2);
+    box-shadow:0 0 0 1px var(--accent-soft), var(--shadow);
+  }
+  .folder-row.push-away-up{transform:translateY(-6px);}
+  .folder-row.push-away-down{transform:translateY(6px);}
+  .folder-row.is-hovering{transform:scale(1.015);}
+
+  .folder-main{display:flex;align-items:center;gap:16px;min-width:0;}
+  .folder-icon{
+    width:44px;height:44px;flex-shrink:0;border-radius:11px;
+    background:var(--accent-soft);display:flex;align-items:center;justify-content:center;
+  }
+  .folder-icon svg{width:22px;height:22px;stroke:var(--accent);fill:none;stroke-width:1.6;}
+  .folder-text{min-width:0;}
+  .folder-num{font-family:var(--mono);font-size:10.5px;color:var(--accent);letter-spacing:.08em;margin-bottom:2px;}
+  .folder-title{font-family:var(--display);font-weight:600;font-size:15.5px;}
+  .folder-desc{font-size:12.5px;color:var(--text-dim);margin-top:2px;}
+
+  .folder-preview{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  .folder-thumb{
+    width:0;height:38px;border-radius:8px;overflow:hidden;flex-shrink:0;
+    background:var(--accent-soft);opacity:0;
+    transition:width .3s ease, opacity .3s ease, margin .3s ease;
+  }
+  .folder-thumb svg{width:100%;height:100%;padding:9px;stroke:var(--accent);fill:none;stroke-width:1.4;box-sizing:border-box;}
+  .folder-thumb.is-soon{opacity:.4;}
+  .folder-row.is-hovering .folder-thumb{width:38px;opacity:1;margin-left:2px;}
+  .folder-chevron{width:16px;height:16px;stroke:var(--text-dim);fill:none;stroke-width:2;transition:transform .3s ease, stroke .3s ease;flex-shrink:0;}
+  .folder-row.is-hovering .folder-chevron{transform:translateX(3px);stroke:var(--accent);}
+
+  /* vista expandida */
+  .folder-detail{
+    position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;
+    padding-right:6px;
+    opacity:0;transform:translateX(16px);pointer-events:none;
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .folder-wrap.is-expanded .folder-detail{
+    opacity:1;transform:none;pointer-events:auto;
+  }
+
+  /* scrollbar discreto, estilo "app" */
+  .folder-list, .folder-detail{scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+  .folder-list::-webkit-scrollbar, .folder-detail::-webkit-scrollbar{width:8px;}
+  .folder-list::-webkit-scrollbar-thumb, .folder-detail::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px;}
+  .folder-list::-webkit-scrollbar-thumb:hover, .folder-detail::-webkit-scrollbar-thumb:hover{background:var(--accent-2);}
+
+  .detail-card{
+    border:1px solid var(--border);border-radius:16px;padding:30px 32px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    box-shadow:var(--shadow);
+  }
+  .detail-card:focus{outline:none;}
+  .detail-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;}
+  .detail-head{display:flex;align-items:center;gap:16px;min-width:0;}
+  .detail-icon{
+    width:48px;height:48px;flex-shrink:0;border-radius:12px;
+    background:var(--accent-soft);display:flex;align-items:center;justify-content:center;
+  }
+  .detail-icon svg{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.6;}
+  .detail-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em;}
+  .detail-title{font-family:var(--display);font-weight:700;font-size:19px;}
+  .detail-desc{font-size:13px;color:var(--text-dim);margin-top:3px;}
+  .detail-close{
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    width:38px;height:38px;border-radius:10px;border:1px solid var(--border);
+    color:var(--text-dim);transition:background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .detail-close:hover{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-2);}
+  .detail-close svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;}
+
+  .detail-count{
+    display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;
+    font-family:var(--mono);font-size:11px;color:var(--text-dim);
+    border:1px solid var(--border);border-radius:20px;padding:6px 14px;
+  }
+  .detail-count svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:1.7;}
+
+  .detail-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(230px,1fr));gap:18px;}
+  .detail-proj{
+    border:1px solid var(--border);border-radius:13px;overflow:hidden;background:var(--surface);
     transition:transform .25s ease, box-shadow .25s ease;
   }
-  .proj-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
-  .proj-tag{font-family:var(--mono);font-size:10.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:block;}
-  .proj-card h3{font-size:16px;font-weight:600;margin-bottom:8px;}
-  .proj-card p{font-size:13.5px;color:var(--text-dim);text-align:justify;hyphens:auto;}
-  .proj-metrics{display:flex;gap:14px;margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--text-dim);}
+  .detail-proj:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+  .detail-proj-media{
+    height:120px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, var(--accent-soft), transparent);
+  }
+  .detail-proj-media img{width:100%;height:100%;object-fit:cover;display:block;}
+  .detail-proj-media svg{width:34px;height:34px;stroke:var(--accent);fill:none;stroke-width:1.3;opacity:.55;}
+  .detail-proj.is-soon .detail-proj-media{background:repeating-linear-gradient(135deg, var(--border) 0 10px, transparent 10px 20px);opacity:.6;}
+  .detail-proj-body{padding:16px 18px;}
+  .detail-proj-title{font-family:var(--display);font-weight:600;font-size:14px;margin-bottom:6px;}
+  .detail-proj-desc{font-size:12.5px;color:var(--text-dim);text-align:justify;hyphens:auto;}
+  .detail-proj-meta{margin-top:10px;font-family:var(--mono);font-size:10.5px;color:var(--accent);}
+  .soon-tag{
+    display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--text-dim);border:1px dashed var(--border);border-radius:20px;padding:4px 10px;
+  }
+
+  @media (max-width:860px){
+    .folder-row{padding:16px 16px;gap:12px;}
+    .folder-preview{display:none;}
+    .detail-card{padding:22px 20px;}
+  }
 
   footer{
     font-family:var(--mono);font-size:11.5px;color:var(--text-dim);
@@ -519,7 +661,10 @@
     <section id="portafolio" class="panel">
       <div class="eyebrow">Casos de trabajo</div>
       <h2>Portafolio</h2>
-      <div class="proj-grid" id="projGrid"></div>
+      <div class="folder-wrap" id="folderWrap">
+        <div class="folder-list" id="folderList"></div>
+        <div class="folder-detail" id="folderDetail"></div>
+      </div>
     </section>
 
   </main>
@@ -719,28 +864,92 @@
 
   "portafolio": [
     {
-      "etiqueta": "Investigación aplicada",
-      "titulo": "Red de monitoreo de calidad del aire — Colima",
-      "descripcion": "Metodología estatal para ubicar de forma óptima estaciones de monitoreo de calidad del aire, con datos de campo y análisis geoespacial multicriterio.",
-      "metricas": ["CONAHCYT · Proy. 321542"]
+      "numero": "01",
+      "icono": "mapa",
+      "titulo": "Cartografía Temática",
+      "descripcion": "Mapas de uso de suelo, cobertura vegetal, hidrología y más.",
+      "proyectos": [
+        { "proximamente": true, "titulo": "Próximo caso de estudio", "descripcion": "Mapas temáticos digitales en preparación para publicarse aquí." }
+      ]
     },
     {
-      "etiqueta": "Supervisión de obra",
-      "titulo": "Aeropuerto Internacional de Colima",
-      "descripcion": "Cálculo de volúmenes, nivelación y control de movimientos de tierra en un proyecto de infraestructura aeroportuaria.",
-      "metricas": ["44.5 ha", "Equipo de 15"]
+      "numero": "02",
+      "icono": "capas",
+      "titulo": "Análisis Espacial",
+      "descripcion": "Modelos multicriterio, análisis geoespacial y SIG aplicado.",
+      "proyectos": [
+        {
+          "titulo": "Red de monitoreo de calidad del aire — Colima",
+          "descripcion": "Metodología estatal para ubicar de forma óptima estaciones de monitoreo de calidad del aire, con datos de campo y análisis geoespacial multicriterio.",
+          "meta": "ArcGIS Pro · CONAHCYT 321542"
+        }
+      ]
     },
     {
-      "etiqueta": "Modelado CAD",
-      "titulo": "Modelos de superficie — infraestructura",
-      "descripcion": "Generación de planos técnicos y modelos de superficie para proyectos de infraestructura militar en Guadalajara.",
-      "metricas": ["SEDENA"]
+      "numero": "03",
+      "icono": "dron",
+      "titulo": "Fotogrametría",
+      "descripcion": "Modelos 3D, ortomosaicos y nubes de puntos.",
+      "proyectos": [
+        { "proximamente": true, "titulo": "Próximo caso de estudio", "descripcion": "Vuelos con DJI Matrice 300 RTK en proceso de documentación." }
+      ]
     },
     {
-      "etiqueta": "Divulgación",
-      "titulo": "Ponencia: sitios óptimos de monitoreo",
-      "descripcion": "Presentación de resultados de investigación aplicada ante audiencia académica y técnica, Universidad de Colima.",
-      "metricas": ["Mayo 2023"]
+      "numero": "04",
+      "icono": "hoja",
+      "titulo": "Monitoreo Ambiental",
+      "descripcion": "Análisis multitemporal, calidad del aire y cambio de uso de suelo.",
+      "proyectos": [
+        { "proximamente": true, "titulo": "Próximo caso de estudio", "descripcion": "Resultados del perfil epidemio-toxicológico de Colima en preparación." }
+      ]
+    },
+    {
+      "numero": "05",
+      "icono": "terreno",
+      "titulo": "Topografía",
+      "descripcion": "Levantamientos, modelos de superficie y diseño CAD.",
+      "proyectos": [
+        {
+          "titulo": "Modelos de superficie — infraestructura",
+          "descripcion": "Generación de planos técnicos y modelos de superficie para proyectos de infraestructura militar en Guadalajara.",
+          "meta": "AutoCAD Civil 3D · SEDENA"
+        }
+      ]
+    },
+    {
+      "numero": "06",
+      "icono": "infraestructura",
+      "titulo": "Infraestructura",
+      "descripcion": "Obras civiles, control de volúmenes y supervisión de obra.",
+      "proyectos": [
+        {
+          "titulo": "Aeropuerto Internacional de Colima",
+          "descripcion": "Cálculo de volúmenes, nivelación y control de movimientos de tierra en un proyecto de infraestructura aeroportuaria de hasta 44.5 hectáreas, con un equipo de 15 personas en campo.",
+          "meta": "CRETEC · 44.5 ha"
+        }
+      ]
+    },
+    {
+      "numero": "07",
+      "icono": "globo",
+      "titulo": "Geodesia y GNSS",
+      "descripcion": "Procesamiento GNSS, ajuste de redes y precisión posicional.",
+      "proyectos": [
+        { "proximamente": true, "titulo": "Próximo caso de estudio", "descripcion": "Postprocesos con Leica Infinity y archivos RINEX en preparación." }
+      ]
+    },
+    {
+      "numero": "08",
+      "icono": "pin",
+      "titulo": "Otros Proyectos",
+      "descripcion": "Divulgación, ponencias y proyectos experimentales.",
+      "proyectos": [
+        {
+          "titulo": "Ponencia: sitios óptimos de monitoreo",
+          "descripcion": "Presentación de resultados de investigación aplicada ante audiencia académica y técnica, Universidad de Colima.",
+          "meta": "Mayo 2023"
+        }
+      ]
     }
   ]
 }
@@ -788,13 +997,18 @@
   // ---------- Navigation ----------
   const buttons = document.querySelectorAll('.nav-btn');
   const panels = document.querySelectorAll('.panel');
+
+  function activatePanel(target){
+    buttons.forEach(b=>b.classList.toggle('active', b.dataset.target === target));
+    panels.forEach(p=>p.classList.toggle('active', p.id === target));
+    // El explorador de Portafolio se comporta como app de escritorio (viewport
+    // fijo, scroll solo dentro de la lista/detalle). El resto de secciones
+    // conserva el scroll normal del documento.
+    document.body.classList.toggle('portfolio-mode', target === 'portafolio');
+  }
+
   buttons.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      buttons.forEach(b=>b.classList.remove('active'));
-      panels.forEach(p=>p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.target).classList.add('active');
-    });
+    btn.addEventListener('click', ()=> activatePanel(btn.dataset.target));
   });
 
   // ---------- Foto lateral: clic = gira y muestra QR + tira de LinkedIn ----------
@@ -839,6 +1053,121 @@
     if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggleFlip(); }
   });
   window.addEventListener('resize', ()=>{ if(flipped) positionStrip(); });
+
+  // ---------- Portafolio: explorador de carpetas (hover, expandir, cerrar) ----------
+  function buildDetailHTML(cat){
+    const esc = window.__escHtml;
+    const icons = window.__portafolioIcons || {};
+    const iconSvg = icons[cat.icono] || icons.grid || '';
+
+    const projectsHTML = cat.proyectos.map(p=>{
+      const isSoon = !!p.proximamente;
+      const media = p.imagen
+        ? `<img src="${esc(p.imagen)}" alt="${esc(p.titulo)}" loading="lazy">`
+        : `<svg viewBox="0 0 24 24" aria-hidden="true">${iconSvg}</svg>`;
+      return `
+        <div class="detail-proj ${isSoon ? 'is-soon' : ''}">
+          <div class="detail-proj-media">${media}</div>
+          <div class="detail-proj-body">
+            <div class="detail-proj-title">${esc(p.titulo)}</div>
+            <p class="detail-proj-desc">${esc(p.descripcion)}</p>
+            ${p.meta ? `<div class="detail-proj-meta">${esc(p.meta)}</div>` : ''}
+            ${isSoon ? `<span class="soon-tag">Próximamente</span>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+
+    const total = cat.proyectos.length;
+
+    return `
+      <div class="detail-card" tabindex="-1">
+        <div class="detail-top">
+          <div class="detail-head">
+            <div class="detail-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${iconSvg}</svg></div>
+            <div>
+              <div class="detail-num">CARPETA ${esc(cat.numero)}</div>
+              <div class="detail-title">${esc(cat.titulo)}</div>
+              <div class="detail-desc">${esc(cat.descripcion)}</div>
+            </div>
+          </div>
+          <button type="button" class="detail-close" id="folderCloseBtn" aria-label="Cerrar y volver a la lista">
+            <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="detail-count">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16v14H8l-4 4V4z"/></svg>
+          ${total} ${total === 1 ? 'proyecto' : 'proyectos'}
+        </div>
+        <div class="detail-grid">${projectsHTML}</div>
+      </div>`;
+  }
+
+  function closeFolder(){
+    const wrap = document.getElementById('folderWrap');
+    if(wrap) wrap.classList.remove('is-expanded');
+    document.querySelectorAll('.folder-row').forEach(row => row.setAttribute('aria-expanded', 'false'));
+  }
+
+  function openFolder(index){
+    const cat = (window.__portafolioCategorias || [])[index];
+    const wrap = document.getElementById('folderWrap');
+    const detail = document.getElementById('folderDetail');
+    if(!cat || !wrap || !detail) return;
+
+    detail.innerHTML = buildDetailHTML(cat);
+    wrap.classList.add('is-expanded');
+    document.querySelectorAll('.folder-row').forEach(row=>{
+      row.setAttribute('aria-expanded', row.dataset.index === String(index) ? 'true' : 'false');
+    });
+
+    const closeBtn = document.getElementById('folderCloseBtn');
+    if(closeBtn) closeBtn.addEventListener('click', closeFolder);
+
+    const card = detail.querySelector('.detail-card');
+    if(card) card.focus();
+  }
+
+  function initPortfolioExplorer(){
+    const list = document.getElementById('folderList');
+    if(!list || list.dataset.wired) return;
+    list.dataset.wired = 'true';
+
+    list.addEventListener('mouseover', (e)=>{
+      const row = e.target.closest('.folder-row');
+      if(!row || row.classList.contains('is-hovering')) return;
+      row.classList.add('is-hovering');
+      row.previousElementSibling?.classList.add('push-away-up');
+      row.nextElementSibling?.classList.add('push-away-down');
+    });
+
+    list.addEventListener('mouseout', (e)=>{
+      const row = e.target.closest('.folder-row');
+      if(!row || row.contains(e.relatedTarget)) return;
+      row.classList.remove('is-hovering');
+      row.previousElementSibling?.classList.remove('push-away-up');
+      row.nextElementSibling?.classList.remove('push-away-down');
+    });
+
+    list.addEventListener('click', (e)=>{
+      const row = e.target.closest('.folder-row');
+      if(row) openFolder(Number(row.dataset.index));
+    });
+
+    list.addEventListener('keydown', (e)=>{
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      const row = e.target.closest('.folder-row');
+      if(!row) return;
+      e.preventDefault();
+      openFolder(Number(row.dataset.index));
+    });
+  }
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape') closeFolder();
+  });
+  document.addEventListener('content-ready', initPortfolioExplorer);
+  // por si content-ready ya se disparó antes de llegar a esta línea
+  if(document.getElementById('folderList')?.children.length) initPortfolioExplorer();
 
   // ---------- Theme toggle (Claro / Oscuro, siempre inicia en Oscuro) ----------
   const themeOpts = document.querySelectorAll('.theme-opt');
