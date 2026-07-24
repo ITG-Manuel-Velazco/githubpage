@@ -373,7 +373,7 @@
   .folder-wrap{position:relative;flex:1;min-height:0;}
 
   .folder-list{
-    position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;
+    position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
     display:flex;flex-direction:column;gap:10px;
     padding-right:6px;
     transition:opacity .35s ease, transform .35s ease;
@@ -388,7 +388,7 @@
     background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
     border:1px solid var(--border);
     backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-    transition:transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, box-shadow .3s ease, margin .3s ease;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1), border-color .3s ease, box-shadow .3s ease;
   }
   .folder-row:hover, .folder-row:focus-visible{
     border-color:var(--accent-2);
@@ -396,9 +396,9 @@
   }
   .folder-row.push-away-up{transform:translateY(-6px);}
   .folder-row.push-away-down{transform:translateY(6px);}
-  .folder-row.is-hovering{transform:scale(1.015);}
+  .folder-row.is-hovering{transform:scale(1.015);z-index:1;}
 
-  .folder-main{display:flex;align-items:center;gap:16px;min-width:0;}
+  .folder-main{display:flex;align-items:center;gap:16px;min-width:0;flex:1 1 auto;}
   .folder-icon{
     width:44px;height:44px;flex-shrink:0;border-radius:11px;
     background:var(--accent-soft);display:flex;align-items:center;justify-content:center;
@@ -406,24 +406,29 @@
   .folder-icon svg{width:22px;height:22px;stroke:var(--accent);fill:none;stroke-width:1.6;}
   .folder-text{min-width:0;}
   .folder-num{font-family:var(--mono);font-size:10.5px;color:var(--accent);letter-spacing:.08em;margin-bottom:2px;}
-  .folder-title{font-family:var(--display);font-weight:600;font-size:15.5px;}
-  .folder-desc{font-size:12.5px;color:var(--text-dim);margin-top:2px;}
+  .folder-title{font-family:var(--display);font-weight:600;font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .folder-desc{font-size:12.5px;color:var(--text-dim);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
+  /* El espacio de las miniaturas se reserva siempre (nunca cambia de ancho);
+     solo se anima opacidad/transform, así el hover jamás fuerza overflow ni
+     scroll horizontal en la lista. */
   .folder-preview{display:flex;align-items:center;gap:8px;flex-shrink:0;}
   .folder-thumb{
-    width:0;height:38px;border-radius:8px;overflow:hidden;flex-shrink:0;
+    width:38px;height:38px;border-radius:8px;overflow:hidden;flex-shrink:0;
     background:var(--accent-soft);opacity:0;
-    transition:width .3s ease, opacity .3s ease, margin .3s ease;
+    transform:scale(.55) translateX(8px);
+    transition:opacity .3s ease, transform .3s ease;
   }
   .folder-thumb svg{width:100%;height:100%;padding:9px;stroke:var(--accent);fill:none;stroke-width:1.4;box-sizing:border-box;}
-  .folder-thumb.is-soon{opacity:.4;}
-  .folder-row.is-hovering .folder-thumb{width:38px;opacity:1;margin-left:2px;}
+  .folder-thumb.is-soon{opacity:0;}
+  .folder-row.is-hovering .folder-thumb{opacity:1;transform:none;}
+  .folder-row.is-hovering .folder-thumb.is-soon{opacity:.4;}
   .folder-chevron{width:16px;height:16px;stroke:var(--text-dim);fill:none;stroke-width:2;transition:transform .3s ease, stroke .3s ease;flex-shrink:0;}
   .folder-row.is-hovering .folder-chevron{transform:translateX(3px);stroke:var(--accent);}
 
   /* vista expandida */
   .folder-detail{
-    position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;
+    position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
     padding-right:6px;
     opacity:0;transform:translateX(16px);pointer-events:none;
     transition:opacity .35s ease, transform .35s ease;
